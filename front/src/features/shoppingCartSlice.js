@@ -15,14 +15,14 @@ export const shoppingCartSlice = createSlice({
     initialState,
     reducers: {
         resetState: (state) => {
-            localStorage.clear("shoppingCart")
-            localStorage.clear("checkout")
-            state.options = []
+            // localStorage.clear("shoppingCart")
+            // localStorage.clear("checkout")
+            // state.options = []
             state.checkedId = []
             state.message = null
             state.quantity = 0
             state.carts = []
-            state.checkouts = []
+            // state.checkouts = []
         },
         setQuantity: (state, action) => {
             state.quantity = action.payload

@@ -140,9 +140,9 @@ function TableHeader({
     return (
         <>
             <header className="px-5 py-4 border-b border-slate-100 ">
-            <div className="flex justify-between">
+            <div className="flex  justify-between">
             <h2 className="font-semibold text-slate-800  flex-initial">{ title }</h2>
-            <div className="flex justify-end items-center gap-2  w-auto">
+            <div className="flex flex-col xs:flex-row justify-end items-center gap-2  w-auto">
             {/* { (idDelete.length > 0 && isRestore == false) && (
             <NavLink to={toUpdate}>
             <button className=" bg-indigo-800 p-1 rounded-sm 

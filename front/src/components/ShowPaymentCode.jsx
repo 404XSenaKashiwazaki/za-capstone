@@ -9,8 +9,8 @@ const ShowPaymentCode = ({ vaNumbers,showModal, setShowModal }) => {
     const textToCopy = "Ini adalah teks yang akan disalin"
     const ModalTitle = () =>  <span className="px-2"><FontAwesomeIcon icon={faMoneyCheckDollar}/> Info Pembayaran </span>
     
-    const handleCopy = () => {
-    navigator.clipboard.writeText(textToCopy).then(() => {
+    const handleCopy = (code) => {
+    navigator.clipboard.writeText(code).then(() => {
             setCopied(true)
             setTimeout(() => setCopied(false), 3000) 
         }) 

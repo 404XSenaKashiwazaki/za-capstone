@@ -11,11 +11,11 @@ const apiNotYetPaid = apiSlice.injectEndpoints({
                     method: "GET",
                 }
             },
-            providesTags: result => {
-                return result?.response?.orders.length > 0
-                ? result.response.orders.map(p => ({ type: "OrdersProductsNotPaid", id: p.id },{ type: "OrdersProductsNotPaid",id: "LIST-ORDER-PRODUCTS-NOT-PAID" }))
-                : [{ type: "OrdersProductsNotPaid", id: "LIST-ORDER-PRODUCTS-NOT-PAID" }]
-            },
+            // providesTags: result => {
+            //     return result?.response?.orders.length > 0
+            //     ? result.response.orders.map(p => ({ type: "OrdersProductsNotPaid", id: p.id },{ type: "OrdersProductsNotPaid",id: "LIST-ORDER-PRODUCTS-NOT-PAID" }))
+            //     : [{ type: "OrdersProductsNotPaid", id: "LIST-ORDER-PRODUCTS-NOT-PAID" }]
+            // },
         }),
         findOneProductsNotYetPaid: builder.query({
             query: (params) => {
@@ -25,11 +25,11 @@ const apiNotYetPaid = apiSlice.injectEndpoints({
                     method: "GET",
                 }
             },
-            providesTags: res => {
-                return res?.response?.orders 
-                ? [ {type: "OrdersProductsNotPaid", id: res.response.orders.id},{ type: "OrdersProductsNotPaid", id:"LIST-ORDER-PRODUCTS-NOT-PAID" }] 
-                : [{ type: "OrdersProductsNotPaid",id: "LIST-ORDER-PRODUCTS-NOT-PAID" }]
-            }
+            // providesTags: res => {
+            //     return res?.response?.orders 
+            //     ? [ {type: "OrdersProductsNotPaid", id: res.response.orders.id},{ type: "OrdersProductsNotPaid", id:"LIST-ORDER-PRODUCTS-NOT-PAID" }] 
+            //     : [{ type: "OrdersProductsNotPaid",id: "LIST-ORDER-PRODUCTS-NOT-PAID" }]
+            // }
         }),
         findConfirmPayment: builder.query({
             query: (params) => {

@@ -78,7 +78,7 @@ const ProductsDetail = ({ site }) => {
         orders_item.push({
             ProductId: parseInt(id),
             // price: harga_produk,
-            checked: true,
+            // checked: true,
             quantity: quantity,
             // desk_produk: desk_produk,
             // nama_produk: nama_produk,
@@ -103,7 +103,7 @@ const ProductsDetail = ({ site }) => {
             orders_item: [{
                 ProductId: parseInt(id),
                 // price: harga_produk,
-                checked: true,
+                // checked: true,
                 quantity: quantity,
                 // desk_produk: desk_produk,
                 // nama_produk: nama_produk,

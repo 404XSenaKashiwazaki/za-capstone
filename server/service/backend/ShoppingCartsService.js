@@ -244,11 +244,8 @@ export const cancelTransactions = async req => {
 
   try {
     const response = await snap.transaction.cancel(transactionId)
-    return { 
-      status:  200,
-      message: `Pesanan berhasil dicancel`, 
-      response: {  response }
-    }
+    const orders = await Orders.findOne({ where: { transactionId } })
+    if(orders.status == "cancel") return { status:  200, message: `Pesanan berhasil dicancel`, response: {  response } }
   } catch (error) {
     throw CreateErrorMessage("Error, Transaksi expired.", 412)
   }
@@ -263,7 +260,7 @@ export const storeOrdersDetails = async req => {
       orders[0].total_price = orders[0].gross_amount
       orders[0].transactionId = orders[0].transaction_id
 
-      const order = await Orders.findOne({ where: { transactionId: orders[0].transactionId }, transaction: t })
+      const order = await Orders.findOne({ where: { transactionId: orders[0].transaction_id }, transaction: t })
       if(order){
         orders[0].OrderId = order.id
         // // e.role = [1,2,3]

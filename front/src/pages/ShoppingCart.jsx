@@ -237,7 +237,11 @@ const ShoppingCart = ({ site }) => {
                 </div>
             </div>
             <Link to={`/checkouts/${username}`} >
-                <button className="w-full mt-2 bg-gradient-to-r from-purple-500 to-blue-500 text-white font-medium overflow-hidden text-ellipsis whitespace-nowrap text-xs py-1 px-1 rounded-sm hover:bg-gradient-to-l focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50">CHECKOUT</button>
+                <button 
+                    disabled={qty == 0 ? true : false}
+                    className={`${ qty == 0 && `cursor-not-allowed` } w-full mt-2 bg-gradient-to-r from-purple-500 to-blue-500 text-white font-medium overflow-hidden text-ellipsis whitespace-nowrap text-xs py-1 px-1 rounded-sm hover:bg-gradient-to-l focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50`}
+                >CHECKOUT
+                </button>
             </Link>
         </div>
         </div>) 

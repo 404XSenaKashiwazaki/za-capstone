@@ -51,7 +51,7 @@ const NotYetPaid = ({ site }) => {
     //   const { data: dataPayments,isError, isLoading, error } = useFindAllPaymentsBackQuery({ restores: isRestore, search, page, perPage },{ refetchOnMountOrArgChange: isRestore})
     const [ destroyMultipel ] = useDestroyPaymentsBackMutation()
     const [ restoreMultipel ] = useRestorePaymentsBackMutation()
-    const { data: dataNotPaid, isError, isLoading, error  } = useFindAllProductsNotYetPaidQuery({ username: dataUser?.username, restores: "", search, page, perPage },{ refetchOnMountOrArgChange: (navigate || isRestore),skip: (dataUser) ? false: true })
+    const { data: dataNotPaid, isError, isLoading, error,refetch } = useFindAllProductsNotYetPaidQuery({ username: dataUser?.username, restores: "", search, page, perPage },{ refetchOnMountOrArgChange: true,skip: (dataUser) ? false: true })
     const [ cancelTransaction ] = useCancelTransactionNotPaidMutation()
     const [ vaNumbers, setVaNumbers ] = useState(null)
     const [ contact, {isLoading: isLoadingSotore} ] = useStoreContactMutation()
@@ -113,7 +113,10 @@ const NotYetPaid = ({ site }) => {
         try {
             const res = await cancelTransaction({ data: { transactionId },username: dataUser.username }).unwrap()
             console.log({ res });
-            dispatch(setMessage(res.message))
+            if(res.status == 200){
+                dispatch(setMessage(res.message))
+                refetch()
+            }
         } catch (error) {
             console.log(error)
             setMsg(error.data.errors[0].msg)

@@ -105,7 +105,7 @@ const Packaged = ({ site }) => {
             
         }
     }
-
+    
     return (
         <div className="col-span-full xl:col-span-6 bg-white shadow-lg rounded-sm border border-slate-200">
             <Helmet >

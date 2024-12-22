@@ -10,7 +10,7 @@ import { faBagShopping, faCameraAlt, faBox, faBoxArchive, faBoxes, faBoxesPackin
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 import { useLocation, useNavigate } from "react-router-dom"
-
+import AlertProfileRemove from "../components/AlertProfileRemove"
 import FormInputProfileModal from "../components/FormInputProfileModal"
 import { Helmet } from "react-helmet"
 
@@ -135,8 +135,8 @@ const Profile = ({ site }) => {
 
                     { showModal && <FormInputProfileModal username={username} setInput={setInput} input={input} setShowModal={setShowModal} showModal={showModal} /> }
                     { showModal2 && <AlertProfileRemove username={username} setInput={setInput} input={input} setShowModal={setShowModal2} showModal={showModal2} /> }
-                    <div className="flex items-center justify-between  mb-6">
-                        <div className="w-1/3 flex h-1/3 p-2 items-center relative ">
+                    <div className="grid grid-cols-1 xs:grid-cols-[150px_1fr] gap-5 items-center mb-6">
+                        <div className="w-52 h-52 flex p-2 items-center relative ">
                             <img
                                 className="w-full h-full rounded-full object-cover border-slate-200 border-2"
                                 src={input?.profileUrl}
@@ -148,7 +148,7 @@ const Profile = ({ site }) => {
                                 <FontAwesomeIcon size="2x"  icon={faCameraAlt} />
                             </div>
                         </div>
-                        <div className="w-full flex items-center gap-1 mx-4">
+                        <div className="w-full flex items-center gap-1 mx-5 ml-0 xs:ml-10">
                             <button
                                 onClick={() => setShowModal(true)}
                                 className="ml-4 px-4 bg-indigo-700 text-white py-1 rounded-sm font-bold text-sm hover:bg-indigo-600 transition">
@@ -190,7 +190,7 @@ const Profile = ({ site }) => {
                             {activeTab === 'Profile Settings' && (
                             <div className="mt-5">
                                 <form onSubmit={handleSubmit}>
-                                    <div className="grid grid-cols-2 gap-4 mb-3">
+                                    <div className="grid grid-cols-1 xs:grid-cols-2 gap-1 xs:gap-4 mb-1 xs:mb-3">
                                         <div className="mb-1">
                                             <label className="block text-sm font-medium text-gray-700" htmlFor="namaDepan">Nama Depan*</label>
                                             <input
@@ -216,7 +216,7 @@ const Profile = ({ site }) => {
                                             />
                                         </div>
                                     </div>
-                                    <div className="grid grid-cols-2 gap-4 mb-3">
+                                    <div className="grid grid-cols-1 xs:grid-cols-2 gap-1 xs:gap-4 mb-1 xs:mb-3">
                                         <div className="mb-1">
                                             <label className="block text-sm font-medium text-gray-700" htmlFor="email">Email*</label>
                                             <input

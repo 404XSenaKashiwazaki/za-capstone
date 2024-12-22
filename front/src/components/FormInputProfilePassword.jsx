@@ -47,7 +47,7 @@ const FormInputProfilePassword = ({ data }) => {
     return (
         <div>
             <form onSubmit={handleSubmit}>
-                <div className="grid grid-cols-2 gap-4 mb-3">
+                <div className="grid grid-cols-1 xs:grid-cols-2 gap-1 xs:gap-4 mb-1 xs:mb-3">
                     <div className="mb-1">
                         <label className="block text-sm font-medium text-gray-700" htmlFor="passwordOld">Password Lama*</label>
                         <input
@@ -61,7 +61,7 @@ const FormInputProfilePassword = ({ data }) => {
                         />
                     </div>
                 </div>
-                <div className="grid grid-cols-2 gap-4 mb-3">
+                <div className="grid grid-cols-1 xs:grid-cols-2 gap-1 xs:gap-4 mb-1 xs:mb-3">
                     <div className="mb-1">
                         <label className="block text-sm font-medium text-gray-700" htmlFor="password">Password Baru*</label>
                         <input
@@ -75,7 +75,7 @@ const FormInputProfilePassword = ({ data }) => {
                         />
                     </div>
                 </div>
-                <div className="grid grid-cols-2 gap-4 mb-3">
+                <div className="grid grid-cols-1 xs:grid-cols-2 gap-1 xs:gap-4 mb-1 xs:mb-3">
                     <div className="mb-1">
                         <label className="block text-sm font-medium text-gray-700" htmlFor="konfirmasiPassword">Konfirmasi Password*</label>
                         <input

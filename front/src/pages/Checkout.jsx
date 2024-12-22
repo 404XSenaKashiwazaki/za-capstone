@@ -5,7 +5,7 @@ import { formatDiskon, formatRp } from "../utils/FormatRp"
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useCheckoutMutation, useCreateTransactionMutation, useDeleteOrderCheckoutMutation, useFindAllProductsCartsQuery, useStoreOrdersItemsMutation, useStorePaymentMutation } from "../features/api/apiShoppingCart"
-import { setMessage, removeMessage, setRemoveOption, removeQuantity, resetState, resetShoppingCarts, setShoppingCarts } from "../features/shoppingCartSlice"
+import { setMessage, removeMessage, setRemoveOption, removeQuantity, resetState, resetShoppingCarts, setShoppingCarts, removeCheckout, setOptions, setQuantity } from "../features/shoppingCartSlice"
 import { Toast} from '../utils/sweetalert'
 import { v4 as uuidv4 } from 'uuid'
 import { useSendEmailsCheckoutMutation } from "../features/api/apiSendEmailsSlice"
@@ -199,15 +199,16 @@ const CheckOutPage = ({ site }) => {
         createTransaction({ data: data ,username: dataUser.username }).then(res => {
             const snapInstance = window.snap
             console.log({ res });
-            
+
+            const ProdId = carts.map(e=> e.ProductId)
+            let ordersItem = options.orders.orders_item.filter(e=> !ProdId.includes(e.ProductId))
+            ordersItem = ordersItem.length === options.orders.orders_item.length ? [] : ordersItem
+
             snapInstance.pay(res.data.response.transactionToken, {
                 onSuccess: async (result) => {
                     if (successHandled) return
                     successHandled = true
-                    dispatch(resetState())
-                    dispatch(setRemoveOption())
-                    dispatch(removeQuantity())
-                    dispatch(resetShoppingCarts())
+                    handleDispatch(options,ordersItem)
                     try {
                         await handleStoreData(data,result,`/order/success/${result.transaction_id}`,"success")
                     } catch (error) {console.log(error)}
@@ -215,10 +216,7 @@ const CheckOutPage = ({ site }) => {
                 onPending: async (result) => {
                     if (successHandled) return
                     successHandled = true
-                    dispatch(resetState())
-                    dispatch(setRemoveOption())
-                    dispatch(removeQuantity())
-                    dispatch(resetShoppingCarts())
+                    handleDispatch(options,ordersItem)
                     try {
                         await handleStoreData(data,result,`/order/payment-confirm/${result.transaction_id}`,"pending")
                     } catch (error) {console.log(error)}
@@ -237,7 +235,24 @@ const CheckOutPage = ({ site }) => {
         }).catch(err=>console.log(err))
     }
 
+    const handleDispatch = (opt,ordersItem) => {
+        if(ordersItem.length == 0) {
+            dispatch(resetState())
+            dispatch(setRemoveOption())
+            dispatch(removeQuantity())
+            dispatch(resetShoppingCarts())
+            dispatch(removeCheckout())
+        }else{
+            dispatch(setOptions({ orders: {...opt.orders, orders_item: ordersItem} }))
+            dispatch(setShoppingCarts(ordersItem))
+            dispatch(setQuantity(ordersItem.length))
+            dispatch(removeCheckout())
+        }
+    }
+
     const handleStoreData = async (data,result,navigateUrl,type) => {
+        console.log({ type });
+        
         const orders = [{ 
             ...data.orders, 
             UserId: dataUser.id,
@@ -269,7 +284,7 @@ const CheckOutPage = ({ site }) => {
         setTotal(total + value)
     }
 
- 
+
     return (
     <div className="flex flex-col md:flex-row justify-center py-3 px-0 md:space-x-4 xs:space-x-0 sm:space-x-0">
         <Helmet>
