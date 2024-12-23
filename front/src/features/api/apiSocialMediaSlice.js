@@ -13,6 +13,17 @@ export const apiSocialMediaSlice = apiSlice.injectEndpoints({
                 : [{ type: "SocialMedia", id: "LIST-SOCIAL-MEDIA" }]
             },
         }),
+        findAllSocialMediaFooter: builder.query({
+            query: ({ restores,search, page, perPage }) => {
+                const restore = restores ? "restore" : ""
+                return { url: "social-media-footer?search="+search+"&page="+page+"&per_page="+perPage+`&type=${restore}`, method: "GET" }
+            },
+            providesTags: res => {
+                return res?.response?.socials.length > 0
+                ? res.response.socials.map(e=> ({ type: "SocialMedia", id: e.id },{ type: "SocialMedia", id: "LIST-SOCIAL-MEDIA" }))
+                : [{ type: "SocialMedia", id: "LIST-SOCIAL-MEDIA" }]
+            },
+        }),
         findOneSocialMedia: builder.query({
             query: ({ id }) => {
                 return { url: `social-media/${id}`, method: "GET" }
@@ -99,5 +110,5 @@ export const {
     useUpdateMultipelSocialMediaMutation,
     useRestoreMultipelSocialMediaMutation,
     useDestroyMultipelSocialMediaMutation,
-
+    useFindAllSocialMediaFooterQuery,
 } = apiSocialMediaSlice

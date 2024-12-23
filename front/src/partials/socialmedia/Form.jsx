@@ -7,12 +7,15 @@ import { useEffect } from "react"
 import { setMessage } from "../../features/SocialMediaSlice"
 import Modal from "../../components/Modal_"
 import { useFindOneSocialMediaQuery, useStoreMultipelSocialMediaMutation, useUpdateMultipelSocialMediaMutation } from "../../features/api/apiSocialMediaSlice"
+import { faFacebook, faGoogle, faInstagram, faPinterest, faTelegram, faTwitter,faWhatsapp } from '@fortawesome/free-brands-svg-icons'
+
 
 const Form = ({ id, setId, showModal, setShowModal }) => {
+    const icon = ["facebook","twitter","instagram","telegram","google","pinterest","hashtag","whatsapp"]
     const newForm = {
         nama: "",
         url: "",
-        icon: "faHashtag",
+        icon: "hashtag",
         error: null
     }
     const dispatch = useDispatch()
@@ -31,15 +34,27 @@ const Form = ({ id, setId, showModal, setShowModal }) => {
         }] })
     },[ data ])
 
-    const handleChange = (e,i) => {
-        e.preventDefault()
-        const { name,value } = e.target
-    
-        const [...list] = form.socialMedia;
-        list[i][name] = value
+    const handleChange = (e,i,type="input",single=false) => {
+        const { name,value, checked } = e.target
+        const list = form.socialMedia
+
+        if(type == "input") list[i][name] = value 
+        if(type == "checkbox") {
+            if(single && checked) {
+                list[i][name] = value
+            }else{
+                let values = [...list[i][name],value]
+                if(checked){
+                    values = values.filter((f,fi) => values.indexOf(f) == fi) 
+                }else{
+                    values = values.filter((f,fi) => f != value)
+                }
+                list[i][name] = (single) ? "" : values
+            }
+        }
+
         setForm({ socialMedia: list })
     }
-
     
     const handleClickSave = async () => {
         try {
@@ -68,35 +83,39 @@ const Form = ({ id, setId, showModal, setShowModal }) => {
         }
     }
 
-    const handleChangeFile = (e,i) => {
-        e.preventDefault()
-        const files = e.target.files[0]
-
-        const reader = new FileReader
-        const [...list] = form.socialMedia
-        
-        if(files?.size > 5*1000*1000){
-            list[i].error = {
-                image: "File yang di upload terlalu besar!"
-            }
-            list[i].image = "default.jpg"
-            list[i].imageUrl = "http://localhost:8000/slider/default.jpg"
-            setForm({ users: list })
-        }else{
-            console.log(list[i].image);
-            const err = list[i].error
-            list[i].image = files
-            list[i].error = { ...err, image: null }
-            console.log(list[i]);
-            console.log(list[0]);
-            reader.addEventListener("load", () => {
-                list[i].imageUrl = reader.result
-                setForm({ socialMedia: list })
-            })
-            if(files) reader.readAsDataURL(files)
-        }  
+    const IconType = (type) => {
+        let icon = faHashtag
+        switch (type.toLowerCase()) {
+            case "facebook":
+                icon = faFacebook
+                break
+            case "twitter":
+                icon = faTwitter
+                break
+            case "x":
+                icon = faTwitter
+                break
+            case "instagram":
+                icon = faInstagram
+                break
+            case "telegram":
+                icon = faTelegram
+                break
+            case "google":
+                icon = faGoogle
+                break
+            case "pinterest":
+                icon = faPinterest
+                break
+            case "whatsapp":
+                icon = faWhatsapp
+                break
+            default:
+                icon = faHashtag
+                break
+        }
+        return icon
     }
-
 
     const handleClickReset = (e) => {
         e.preventDefault()
@@ -159,7 +178,7 @@ const Form = ({ id, setId, showModal, setShowModal }) => {
 
     return (
         <>
-        <Modal setId={setId} type="md" title={<ModalTitle />}  button={<ButtonModal />} showModal={showModal} setShowModal={setShowModal}>
+        <Modal setId={setId} type="sm" title={<ModalTitle />}  button={<ButtonModal />} showModal={showModal} setShowModal={setShowModal}>
         <div className='w-full mb-7 p-4 h-auto'> 
 
             <div>
@@ -167,10 +186,10 @@ const Form = ({ id, setId, showModal, setShowModal }) => {
                 return (
                     <div key={index} className={`w-full`}>
                     { index != 0 && (<div className="mt-7 border-b-0 w-full h-2 bg-slate-600 mb-4"></div>) }
-                        <div className="flex gap-2">
+                        <div className="grid grid-cols-1 xs:grid-cols-[150px_1fr] gap-2">
                             <div className="w-full">
                                 <div>
-                                    <FontAwesomeIcon icon={item.icon} />
+                                    <FontAwesomeIcon size="10x" icon={IconType(item.icon)} />
                                 </div>
                             </div>
                             <div className="w-full flex-initial">
@@ -197,15 +216,12 @@ const Form = ({ id, setId, showModal, setShowModal }) => {
                                         placeholder="Url sosial media"/>
                                     <ErrorMsg message={item.error?.url || ""} />
                                 </div>
-                                <div className="w-full my-2">
+                                <div className="w-full my-2 mt-3">
                                     <label htmlFor="icon" className="font-semibold">Icon</label>
-                                    <textarea  
-                                        onChange={(e) => handleChange(e,index)} 
-                                        value={item.icon} 
-                                        name="icon" 
-                                        id="icon" 
-                                        className="w-full text-slate-900 my-1 p-1 text-sm focus:outline-none focus:ring focus:ring-purple-500 rounded-sm border" 
-                                        placeholder="Icon sosial media"/>
+                                    <div 
+                                        className="w-full grid grid-cols-1 xs:grid-cols-2 h-auto px-5 py-2 border-[1px] border-slate-600 rounded-sm shadow-lg">
+                                        { icon.map((status,i) => <div className="flex gap-1 items-center uppercase" key={i}><input checked={item.icon == status} onChange={(e) => handleChange(e,index,"checkbox",true)} type="checkbox" className="p-1" value={status}  name="icon" id="icon" />{ status }</div>) }
+                                    </div>
                                     <ErrorMsg message={item.error?.icon || ""} />
                                 </div>
                                 { (index != 0) && (<div className="mt-4 ">

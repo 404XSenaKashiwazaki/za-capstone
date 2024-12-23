@@ -14,18 +14,18 @@ const Dmca = ({ site }) => {
         <div className=" mx-5 shadow-2xl">
             <div className="flex justify-between mb-3">
                 <div className="my-4">
-                    <h1 className="text-lg font-bold mx-4 text-slate-900"><FontAwesomeIcon icon={faTriangleExclamation} /> Dmca</h1>
+                    <h1 className="text-lg font-bold mx-4 text-slate-600"><FontAwesomeIcon icon={faTriangleExclamation} /> Dmca</h1>
                 </div>
                 <div>
                     {/* <button className="btn btn-sm text-slate-50 font-semibold bg-indigo-900 hover:bg-indigo-800 hover:border-indigo-800">CEK ANIME ON-GOING LAINYA</button> */}
                 </div>
             </div>
-            <div className="text-slate-900">
+            <div className="text-slate-600">
                 <div className="mb-4 mx-4">
-                    <span className="text-md font-medium text-slate-900">{sites?.site?.title || ""} </span>
+                    <span className="text-md font-medium text-slate-600">{sites?.site?.title || ""} </span>
                 </div>
                 <div className="mx-4 mb-4 pb-5">
-                    <p className="text-xs font-medium text-slate-900">{ sites?.site?.dmca || ""}</p>
+                    <p className="text-xs font-medium text-slate-600">{ sites?.site?.dmca || ""}</p>
                 </div>
             </div>
         </div>

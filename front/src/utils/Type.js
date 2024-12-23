@@ -52,3 +52,4 @@ export const typeStatusPayments = (type) => {
     }
     return colors
 }
+

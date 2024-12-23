@@ -19,7 +19,6 @@ function Layout() {
   const { message } = selector
   const dispatch = useDispatch()
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const token = useSelector(tokenSelector)
   
   useEffect(() =>{
     if(message) Toast.fire({ text: message, icon: "success"})

@@ -73,9 +73,9 @@ const BannerSlider = () => {
               alt={banner.title}
               className="w-full h-52 object-fill"
             />
-            <div className="absolute bottom-9 w-full flex flex-col justify-center items-center  bg-opacity-10 text-slate-900 ">
-              <h2 className="text-6xl font-bold">{banner.title}</h2>
-              <p className="text-2xl">{ banner.desk } </p>
+            <div className="absolute p-3 bottom-2 w-full flex flex-col justify-center items-center  bg-opacity-10 text-slate-900 ">
+              <h2 className="text-md xs:text-2xl font-bold ">{banner.title}</h2>
+              <p className="text-sm xs:text-lg">{ banner.desk } </p>
             </div>
           </div>
         ))}

@@ -215,7 +215,5 @@ app.use(CreateError)
 app.listen(process.env.APP_PORT,()=>{
     console.log("Server runing in port "+process.env.APP_PORT)
     console.log("// ==================== APP-RES ==================== //")
-    // console.log(Buffer.from("SB-Mid-server-ZnZ4O_4AlBZ-P9yh3kCjhB_o").toString("base64"));
-    
 })
 // ================= express server // =================

@@ -171,7 +171,7 @@ const Form = ({ id, setId, showModal, setShowModal }) => {
                 return (
                     <div key={index} className={`w-full`}>
                     { index != 0 && (<div className="mt-7 border-b-0 w-full h-2 bg-slate-600 mb-4"></div>) }
-                        <div className="flex gap-2">
+                        <div className="grid grid-cols-1 xs:grid-cols-[150px_1fr] gap-2">
                             <div className="w-full">
                                 <div>
                                     <img src={ item.logoUrl } alt={ item.name } className="rounded-sm w-80 h-80"/>

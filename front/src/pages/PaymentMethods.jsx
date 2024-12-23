@@ -10,7 +10,7 @@ import Add from "../partials/paymentmethods/Form"
 import Detail from '../partials/paymentmethods/Detail'
 import { Helmet } from 'react-helmet'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHashtag, faMoneyBills, faMoneyBillTransfer } from '@fortawesome/free-solid-svg-icons'
+import { faBank, faHashtag, faMoneyBills, faMoneyBillTransfer } from '@fortawesome/free-solid-svg-icons'
 import {
     useFindAllPaymentsMethodsBackQuery,
     useDestroyPaymentsMethodsBackMutation,
@@ -86,7 +86,7 @@ function PaymentMethods({ site }) {
             { (showModalDetail) && <Detail showModal={showModalDetail} setShowModal={setShowModalDetail} setId={setId} id={id}/> }
             {/* table header */}
                 <TableHeader 
-                    title={<span className="text-md"><FontAwesomeIcon icon={faMoneyBills} /> Payment Methods</span>}
+                    title={<span className="text-md"><FontAwesomeIcon icon={faBank} /> Payment Methods</span>}
                     type="modal"
                     pageName="paymentMethods"
                     search={search}

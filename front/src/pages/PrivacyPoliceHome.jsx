@@ -15,13 +15,13 @@ const PrivacyPolice = ({ site }) => {
         <div className="md:w-[850px] mx-5 shadow-2xl">
             <div className="flex justify-between mb-3">
                <div>
-                    <h1 className="text-sm md:font-semibold text-slate-900"><FontAwesomeIcon icon={faTriangleExclamation} /> Privacy Police</h1>
+                    <h1 className="text-sm md:font-semibold text-slate-600"><FontAwesomeIcon icon={faTriangleExclamation} /> Privacy Police</h1>
                </div>
                <div>
                 {/* <button className="btn btn-sm text-slate-50 font-semibold bg-indigo-900 hover:bg-indigo-800 hover:border-indigo-800">CEK ANIME ON-GOING LAINYA</button> */}
                </div>
             </div>
-            <div className="text-slate-900">
+            <div className="text-slate-600">
                 <div className="mb-4 mx-2">
                     <span>{sites?.site?.title || ""} </span>
                 </div>

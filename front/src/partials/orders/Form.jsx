@@ -124,12 +124,13 @@ const Form = ({ id, setId, showModal, setShowModal }) => {
                             <ErrorMsg message={item.error?.resi || ""} />
                         </div>
                         <div className="w-full my-2 mt-3">
-                        <label htmlFor="status" className="font-semibold">Status Pesanan</label>
-                        <div className="w-full grid grid-cols-2 h-auto px-5 py-2 border-[1px] border-slate-600 rounded-sm shadow-lg">
-                            { status.map((status,i) => <div className="flex gap-1 items-center uppercase" key={i}><input checked={item.status == status} onChange={(e) => handleChange(e,0,"checkbox",true)} type="checkbox" className="p-1" value={status}  name="status" id="status" />{ status }</div>) }
+                            <label htmlFor="status" className="font-semibold">Status Pesanan</label>
+                            <div className="w-full grid grid-cols-1 xs:grid-cols-2 h-auto px-5 py-2 border-[1px] border-slate-600 rounded-sm shadow-lg">
+                                { status.map((status,i) => <div className="flex gap-1 items-center uppercase" key={i}><input checked={item.status == status} onChange={(e) => handleChange(e,0,"checkbox",true)} type="checkbox" className="p-1" value={status}  name="status" id="status" />{ status }</div>) }
+                            </div>
+                            <ErrorMsg message={item.error?.status || ""} />
                         </div>
-                        <ErrorMsg message={item.error?.status || ""} />
-                    </div></div>)) }
+                    </div>)) }
                     </div>
                 </div>
             </Modal>

@@ -95,11 +95,11 @@ function Home({ site }) {
             </div>
             <div className="mt-3">
               <h1 className="text-lg font-bold mb-2"><FontAwesomeIcon icon={faTags} /> Produk Terbaru</h1>
-              <div className="grid md:grid-cols-5 xl:grid-col-6 sm:grid-cols-3 grid-cols-2 gap-3 overflow-hidden">
+              <div className="grid md:grid-cols-4 lg:grid-cols-4 xl:grid-col-6 sm:grid-cols-3 grid-cols-2 gap-3 overflow-hidden">
                 { ongoing.length > 0 && <CardSeries items={ongoing}/> }
               </div>
             </div>
-            <div className="mt-2 mb-5 flex justify-end ">
+            <div className="mt-2 mb-1 flex justify-end ">
               {/* pagination  */}
               <HomePaginate
                   data={ongoing}

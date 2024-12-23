@@ -2,6 +2,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit,faTrashAlt,faSyncAlt, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch } from "react-redux"
 import { mySwal } from '../../utils/sweetalert'
+import { faFacebook, faGoogle, faInstagram, faPinterest, faTelegram, faTwitter, faWhatsapp, } from '@fortawesome/free-brands-svg-icons'
+import { faHashtag } from '@fortawesome/free-solid-svg-icons'
 
 
 function Table({ 
@@ -92,6 +94,40 @@ function Table({
         setShowModal(true)
     }
 
+    const IconType = (type) => {
+        let icon = faHashtag
+        switch (type.toLowerCase()) {
+            case "facebook":
+                icon = faFacebook
+                break
+            case "twitter":
+                icon = faTwitter
+                break
+            case "x":
+                icon = faTwitter
+                break
+            case "instagram":
+                icon = faInstagram
+                break
+            case "telegram":
+                icon = faTelegram
+                break
+            case "google":
+                icon = faGoogle
+                break
+            case "pinterest":
+                icon = faPinterest
+                break
+            case "whatsapp":
+                icon = faWhatsapp
+                break
+            default:
+                icon = faHashtag
+                break
+        }
+        return icon
+    }
+
     return (
         <>
         <div className="p-3">
@@ -140,8 +176,8 @@ function Table({
                         </td>
                         <td className="p-2 whitespace-nowrap ">
                             <div className="flex items-center">
-                                <div className="shrink-0 mr-2 mt-2 sm:mr-3">
-                                    <FontAwesomeIcon icon={d.icon} />
+                                <div className="shrink-0 mr-2  sm:mr-3">
+                                    <FontAwesomeIcon size="2x" icon={IconType(d.icon)} />
                                 </div> 
                                 <div className="font-medium text-slate-800">{d.nama}</div>
                             </div>

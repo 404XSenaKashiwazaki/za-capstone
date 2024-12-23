@@ -10,6 +10,9 @@ const routes = express.Router()
 routes.route("/social-media")
 .get(VerifyToken,findAll)
 
+routes.route("/social-media-footer")
+.get(findAll)
+
 routes.route("/social-media/:id")
 .get(VerifyToken,findOne)
 

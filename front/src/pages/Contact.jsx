@@ -136,11 +136,11 @@ const Contact = ({ site }) => {
         {/* card epiosode terbaru */}
         <div className="w-full">
             { msg && (
-                <div className="bg-red-800 text-slate-900 p-2 w-full mb-4"><FontAwesomeIcon icon={faTriangleExclamation} /> { msg }</div>
+                <div className="bg-red-800 text-slate-600 p-2 w-full mb-4"><FontAwesomeIcon icon={faTriangleExclamation} /> { msg }</div>
             ) }
             <div className="flex justify-between mb-3">
                 <div className="my-4">
-                    <h1 className="text-lg font-bold text-slate-900 mx-4"><FontAwesomeIcon  icon={faMessage} /> Contact { (dataContact?.response?.contacts && dataUser) && dataContact.response.contacts.length }</h1>
+                    <h1 className="text-lg font-bold text-slate-600 mx-4"><FontAwesomeIcon  icon={faMessage} /> Contact { (dataContact?.response?.contacts && dataUser) && dataContact.response.contacts.length }</h1>
                 </div>
             <div>
                 {/* <button className="btn btn-sm text-slate-50 font-semibold bg-indigo-900 hover:bg-indigo-800 hover:border-indigo-800">CEK ANIME ON-GOING LAINYA</button> */}
@@ -149,7 +149,7 @@ const Contact = ({ site }) => {
             <div className="flex flex-col md:justify-between gap-5">
                 <div className="mx-4">
                 <div className="my-2 p-1">
-                    <label htmlFor="username" className="text-slate-900"><FontAwesomeIcon icon={faUser} /> Username</label>
+                    <label htmlFor="username" className="text-slate-600"><FontAwesomeIcon icon={faUser} /> Username</label>
                     <input 
                         onChange={(e) => handleCange(e)}
                         value={user?.username || ""}
@@ -163,7 +163,7 @@ const Contact = ({ site }) => {
                         <ErrorMsg message={user?.error?.username || ""} />
                 </div>
                 <div className="my-2 p-1">
-                    <label htmlFor="email" className="text-slate-900 mb-5"><FontAwesomeIcon icon={faEnvelope} /> Email</label>
+                    <label htmlFor="email" className="text-slate-600 mb-5"><FontAwesomeIcon icon={faEnvelope} /> Email</label>
                     <input 
                         onChange={(e) => handleCange(e)}
                         value={user?.email || ""}
@@ -177,7 +177,7 @@ const Contact = ({ site }) => {
                         <ErrorMsg message={user?.error?.email || ""} />
                 </div>
                 <div className="my-2 p-1">
-                    <label htmlFor="isi" className="text-slate-900"><FontAwesomeIcon icon={faMessage} /> Pesan</label>
+                    <label htmlFor="isi" className="text-slate-600"><FontAwesomeIcon icon={faMessage} /> Pesan</label>
                     <textarea
                         onChange={(e) => handleCange(e)}
                         value={user?.content || ""}

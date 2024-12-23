@@ -68,9 +68,9 @@ import { Helmet } from 'react-helmet'
             <Helmet >
                 <title>{ site } - Register</title>
             </Helmet>
-        <div className="bg-white mx-3 p-8 rounded-lg shadow-lg max-w-xl w-full">
+        <div className="bg-white mx-2 my-2 p-8 rounded-lg shadow-lg max-w-xl w-full">
             <h2 className="text-2xl font-bold text-center mb-6">Daftar </h2>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 xs:grid-cols-2 gap-2">
                 <div className="mb-2">
                     <label className="block text-gray-700 text-sm font-bold mb-1" htmlFor="namaDepan">
                         <FontAwesomeIcon  icon={faUser} /> Nama Depan
@@ -100,7 +100,7 @@ import { Helmet } from 'react-helmet'
                     <ErrorMsg message={value.error?.namaBelakang || ""} />
                 </div>
             </div>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 xs:grid-cols-2 gap-2">
                 <div className="mb-2">
                     <label className="block text-gray-700 text-sm font-bold mb-1" htmlFor="username">
                         <FontAwesomeIcon  icon={faUserCog} /> Username
@@ -130,7 +130,7 @@ import { Helmet } from 'react-helmet'
                     <ErrorMsg message={value.error?.email || ""} />
                 </div>
             </div>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 xs:grid-cols-2 gap-2">
                 <div className="mb-2">
                     <label className="block text-gray-700 text-sm font-bold mb-1" htmlFor="password">
                         <FontAwesomeIcon  icon={faLock}  /> Password

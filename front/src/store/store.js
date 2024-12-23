@@ -25,6 +25,8 @@ import contactOrdersSlice from "../features/contactOrdersSlice"
 import discountsSlice from "../features/dicountsSlice"
 import socialMediaSlice from "../features/SocialMediaSlice"
 import paymentMethodsSlice from "../features/paymentMethodsSlice"
+import paymentSupportsSlice from "../features/paymentSupportsSlice"
+
 export const store = configureStore({
     reducer: { 
         auth : authSlice,
@@ -52,6 +54,7 @@ export const store = configureStore({
         discounts:discountsSlice,
         socialMedia: socialMediaSlice,
         paymentMethods:paymentMethodsSlice,
+        paymentSupports: paymentSupportsSlice,
         [apiSlice.reducerPath]: apiSlice.reducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),

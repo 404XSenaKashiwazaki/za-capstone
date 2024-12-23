@@ -64,7 +64,7 @@ const Login = ({ site }) => {
         <Helmet >
             <title>{ site } - Login</title>
         </Helmet>
-        <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+        <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full mx-2">
             <h2 className="text-2xl font-bold text-center mb-6">Login </h2>
             <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-1" htmlFor="email">

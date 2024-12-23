@@ -8,20 +8,23 @@ import { VerifyToken } from "../../middleware/VerifyToken.js"
 const routes = express.Router()
 
 routes.route("/payments-methods")
+.get(VerifyToken,findAll)
+
+routes.route("/payments-supports")
 .get(findAll)
 
 routes.route("/payments-methods/:id")
-.get(findOne)
+.get(VerifyToken,findOne)
 
 routes.route("/payments-methods/add")
-.post(fileUploads("payments_methods","profile","./public/profile").any(),validate(rule),validateDuplicate,store)
+.post(VerifyToken,fileUploads("payments_methods","payments","./public/payments").any(),validate(rule),validateDuplicate,store)
 routes.route("/payments-methods/update")
-.put(fileUploads("payments_methods","profile","./public/profile").any(),validate(rule),validateDuplicate,validateUpdate,update)
+.put(VerifyToken,fileUploads("payments_methods","payments","./public/payments").any(),validate(rule),validateDuplicate,validateUpdate,update)
 
 routes.route("/payments-methods/destroy")
-.delete(destroy)
+.delete(VerifyToken,destroy)
 
 routes.route("/payments-methods/restore")
-.put(restore)
+.put(VerifyToken,restore)
 
 export default routes
