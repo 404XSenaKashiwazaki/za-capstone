@@ -1,7 +1,7 @@
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { formatDiskon, formatRp } from "../utils/FormatRp"
-import { removeMessage, setMessage, setOptions, setQuantity, setShoppingCart } from "../features/shoppingCartSlice"
+import { removeMessage, setMessage, setOptions, setQuantity } from "../features/shoppingCartSlice"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
@@ -17,13 +17,68 @@ const CardSeries = ({ items }) => {
     useEffect(() => {
         if(message) Toast.fire({ text: message, icon: "success"})
         dispatch(removeMessage())
-    },[dispatch, message])
+      },[dispatch, message])
     
     const fnDispatch = options => dispatch(options)  
-    const handleAddToCart =  async ({id},quantity, UserId,) => {
 
+    const fnTotalPrice = data => data.reduce((acu,cure) => acu + cure.total, 0)
+
+    const handleAddToCart =  async ({id, harga_produk, nama_produk, desk_produk,ImageProducts,slug},quantity, UserId, username) => {
+
+        if(options && options?.orders) {
+            const orders_item = options.orders?.orders_item.map((e,i) => {
+                const quantityOld = e.quantity + quantity
+                const price = harga_produk * quantityOld
+                if(e.ProductId == id) return { ...e, quantity: quantityOld, total: price }
+                return e
+            })
+    
+            if (!options.orders.orders_item.some(e => e.ProductId === id)) {
+        
+            const price = harga_produk * quantity
+            orders_item.push({
+                ProductId: parseInt(id),
+                // price: harga_produk,
+                // checked: true,
+                quantity: quantity,
+                // desk_produk: desk_produk,
+                // nama_produk: nama_produk,
+                // slug: slug,
+                // image_products: ImageProducts[0].url_image,
+                // total: price 
+            });
+        }
+    
+        const total_price = fnTotalPrice(orders_item)
+        
+        // fnDispatch(setOptions({ orders: {...options.orders, orders_item, total_price }}))
+        fnDispatch(setOptions({ orders: {...options.orders, orders_item }}))
         fnDispatch(setMessage("Produk berhasil ditambahkan"))
-        dispatch(setShoppingCart({ ProductId: parseInt(id), UserId: parseInt(UserId), quantity }))
+        fnDispatch(setQuantity(orders_item.length))
+        
+        }else{
+            const orders = {
+                UserId: parseInt(UserId),
+                status: "Pending",
+                orders_item: [{
+                    ProductId: parseInt(id),
+                    // price: harga_produk,
+                    // checked: true,
+                    quantity: quantity,
+                    // desk_produk: desk_produk,
+                    // nama_produk: nama_produk,
+                    // slug: slug,
+                    // image_products: ImageProducts[0].url_image,
+                    // total: harga_produk * quantity
+                }]
+            }
+            const total_price = fnTotalPrice(orders.orders_item)
+
+            // fnDispatch(setOptions({ orders: { ...orders,  total_price } }))
+            fnDispatch(setOptions({ orders: { ...orders } }))
+            fnDispatch(setMessage("Produk berhasil ditambahkan"))
+            fnDispatch(setQuantity(orders.orders_item.length))
+        }
     }
 
     return (

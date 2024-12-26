@@ -11,6 +11,9 @@ export const typeBtn = (type) => {
     case "dikirim":
         colors += "bg-cyan-500 hover:bg-cyan-600"
         break
+    case "diperjalanan":
+        colors += "bg-cyan-500 hover:bg-cyan-600"
+        break
     case "selesai":
         colors += "bg-green-700 hover:bg-green-800"
         break
@@ -36,6 +39,9 @@ export const typeStatusPayments = (type) => {
         break
     case "dikemas":
         colors += "bg-blue-700 hover:bg-blue-800"
+        break
+    case "diperjalanan":
+        colors += "bg-cyan-500 hover:bg-cyan-600"
         break
     case "dikirim":
         colors += "bg-cyan-500 hover:bg-cyan-600"

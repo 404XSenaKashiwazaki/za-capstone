@@ -6,7 +6,7 @@ import { typeBtn } from "../utils/Type"
 
 const SummaryChart = () => {
     const [ data, setData ] = useState([])
-    const { data: dataOrders,isError, isLoading, error } = useFindAllOrderBackQuery({ restores: false, search:"", page: 1, perPage: 5 })
+    const { data: dataOrders,isError, isLoading, error } = useFindAllOrderBackQuery({ restores: false, search:"", page: 1, perPage: 10 })
     
     useEffect(() => {
         if(dataOrders?.response){

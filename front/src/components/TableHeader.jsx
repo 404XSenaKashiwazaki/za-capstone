@@ -1,8 +1,8 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { useDebouncedCallback } from "use-debounce"
 import Select from "react-select"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAdd, faRecycle, faTrashAlt, faUndoAlt } from '@fortawesome/free-solid-svg-icons'
+import { faAdd, faRecycle, faRefresh, faTrashAlt, faUndoAlt } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch } from 'react-redux'
 import { mySwal } from '../utils/sweetalert'
 
@@ -26,6 +26,7 @@ function TableHeader({
     checkedId,
     handleClickBtnAdd,
     setMessage,
+    refetch = "",
 }) {
       
     const dispatch = useDispatch()
@@ -172,6 +173,19 @@ function TableHeader({
                 hover:text-slate-200'
                 ><FontAwesomeIcon  icon={faUndoAlt} /> Restore Banyak</button>
             ) }
+
+            { pageName == "notyetpaid" && <button  
+                    onClick={() => {
+                        refetch()
+                    }}
+                    className='
+                    bg-blue-800 p-1 rounded-sm 
+                    border-0 text-slate-300 
+                    h-auto text-sm w-auto px-3
+                    font-medium text-center hover:bg-blue-900
+                    hover:text-slate-200'
+                    ><FontAwesomeIcon  icon={faRefresh} /> Fefresh
+                </button> }
             
             { !["contact","comment"].includes(path.split("/")[2]) && (
                 <>

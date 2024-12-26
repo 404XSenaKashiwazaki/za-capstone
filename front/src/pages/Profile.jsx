@@ -13,23 +13,9 @@ import { useLocation, useNavigate } from "react-router-dom"
 import AlertProfileRemove from "../components/AlertProfileRemove"
 import FormInputProfileModal from "../components/FormInputProfileModal"
 import { Helmet } from "react-helmet"
+import { useFindAllCityByProvincesQuery, useFindAllProvincesQuery } from "../features/api/apiRajaOngkir"
 
 const Profile = ({ site }) => {
-    const navigate = useNavigate()
-    const location = useLocation()
-    const { pathname } = location
-    const queryParams = new URLSearchParams(location.search)
-    const page = queryParams.get('p')    
-    const pathName = pathname.split("/")[1]
-    const [ provinces, setProvinces ] = useState([])
-    const { dataUser } = useSelector(state=> state.auth)
-    const { data } = useFindProfileQuery({ username: dataUser?.username },{ skip: (dataUser) ? false : true })
-    const { message } = useSelector(state => state.profile)
-    const dispatch = useDispatch()
-    const [ update, { data: dataUpdate, isError,isLoading,error } ] = useUpdateProfileMutation()
-    const [ showModal, setShowModal ] = useState(false)
-    const [ showModal2, setShowModal2 ] = useState(false)
-    const [ username, setUsername ] = useState(null)
     const [ input, setInput ] = useState({
         id: "",
         namaDepan: "",
@@ -52,9 +38,28 @@ const Profile = ({ site }) => {
         profileOld: "",
         error: null
     })
+    const navigate = useNavigate()
+    const location = useLocation()
+    const { pathname } = location
+    const queryParams = new URLSearchParams(location.search)
+    const page = queryParams.get('p')    
+    const pathName = pathname.split("/")[1]
+    const [ provinces, setProvinces ] = useState([])
+    const [ selectedProvince, setSelectedProvince ] = useState(0)
+    const [ selectedCity, setSelectedCity ] = useState(0)
+    const [ cities, setCities ] = useState([])
+    const { dataUser } = useSelector(state=> state.auth)
+    const { data } = useFindProfileQuery({ username: dataUser?.username },{ skip: (dataUser) ? false : true })
+    const { data: dataProvince } = useFindAllProvincesQuery()
+    const { data: dataCity, refetch } = useFindAllCityByProvincesQuery({ provId: input.provinsi },{ skip: (selectedProvince) ? false: true })
+    const { message } = useSelector(state => state.profile)
+    const dispatch = useDispatch()
+    const [ update, { data: dataUpdate, isError,isLoading,error } ] = useUpdateProfileMutation()
+    const [ showModal, setShowModal ] = useState(false)
+    const [ showModal2, setShowModal2 ] = useState(false)
+    const [ username, setUsername ] = useState(null)
     const [activeTab, setActiveTab] = useState(page ? page : "Profile Settings")
 
-    
     useEffect(() => {
         if(data?.response?.profiles) {
             setUsername(data.response.profiles.username)
@@ -81,8 +86,21 @@ const Profile = ({ site }) => {
                 konfirmasiPassword: "",
                 error: null
             })
+            
+            setSelectedProvince(data.response.profiles?.UsersDetail.provinsi)
+            setSelectedCity(data.response.profiles?.UsersDetail.kota)
         }
     },[data])
+
+    useEffect(() => {
+        if(dataProvince?.response?.results) setProvinces(dataProvince.response.results) 
+    },[dataProvince])
+
+    useEffect(() => {
+        if(dataCity?.response?.results) {
+            setCities(dataCity.response.results)
+        }        
+    },[dataCity])
 
     useEffect(() => {
         if(message) Toast.fire({ text: message, icon: "success"})
@@ -220,6 +238,7 @@ const Profile = ({ site }) => {
                                         <div className="mb-1">
                                             <label className="block text-sm font-medium text-gray-700" htmlFor="email">Email*</label>
                                             <input
+                                                required
                                                 type="email"
                                                 name="email"
                                                 value={input?.email}
@@ -231,6 +250,7 @@ const Profile = ({ site }) => {
                                         <div className="mb-1">
                                             <label className="block text-sm font-medium text-gray-700" htmlFor="noHp">Nomor Telp/Wa*</label>
                                             <input
+                                                required
                                                 type="number"
                                                 name="noHp"
                                                 value={input?.noHp}
@@ -240,10 +260,87 @@ const Profile = ({ site }) => {
                                             />
                                         </div>
                                     </div>
-
+                                    <div className="mb-1">
+                                    <label className="block text-sm font-medium text-gray-700">Negara</label>
+                                    <input
+                                        required
+                                        type="text"
+                                        value={input?.negara}
+                                        name="negara"
+                                        onChange={handleChange}
+                                        className="mt-1 p-1 block w-full border text-slate-900 rounded-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                    />
+                                    </div>
+                                    <div className="mb-1">
+                                    <label className="block text-sm font-medium text-gray-700">Provinsi</label>
+                                    <select
+                                        required
+                                        name="provinsi"
+                                        className="mt-1 p-1 block w-full border  text-slate-900 rounded-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                        onChange={(e) => {
+                                            setSelectedProvince(e.target.value)
+                                            setSelectedCity("")
+                                            handleChange(e)
+                                        }}
+                                        value={input?.provinsi}
+                                        >
+                                        <option value="">-- Pilih Provinsi --</option>
+                                        {provinces.map((p) => (
+                                            <option key={p.province_id} value={p.province_id}>
+                                            {p.province}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    </div>
+                                    <div className="mb-1">
+                                        <label className="block text-sm font-medium text-slate-700">Kota</label>
+                                        <select
+                                            required
+                                            className="mt-1 p-1 block w-full border text-slate-900 rounded-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                            onChange={(e) => {
+                                                setSelectedCity(e.target.value)
+                                                handleChange(e)
+                                            }}
+                                            value={selectedCity}
+                                            name="kota"
+                                            >
+                                            <option value="">-- Pilih Kota --</option>
+                                            {cities.map((e) => (
+                                                <option key={e.city_id} value={e.city_id}>
+                                                {e.city_name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                        </div>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-1">
+                                        <div>
+                                        <label className="block text-sm font-medium text-slate-700 ">Kecamatan</label>
+                                        <textarea 
+                                            required
+                                            value={input?.kecamatan}
+                                            onChange={handleChange}
+                                            name="kecamatan" 
+                                            id="kecamatan" 
+                                            className="w-full text-slate-900 my-1 p-1 text-sm focus:outline-none focus:ring focus:ring-purple-500 rounded-sm border"
+                                            placeholder="Kecamatan">
+                                        </textarea>
+                                        </div>
+                                        <div>
+                                        <label className="block text-sm font-medium text-slate-700">Kode Pos</label>
+                                        <input
+                                            required
+                                            type="number"
+                                            value={input?.kodePos}
+                                            name="kodePos"
+                                            onChange={handleChange}
+                                            className="mt-1 p-1 block w-full border text-slate-900 rounded-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                        />
+                                        </div>
+                                    </div>
                                     <div className="mb-3">
                                         <label className="block text-sm font-medium text-gray-700" htmlFor="alamat">Alamat*</label>
                                         <textarea 
+                                            required
                                             value={input?.alamat}
                                             onChange={handleChange}
                                             name="alamat" 

@@ -3,7 +3,7 @@ import SearchModal from './header/SearchModal';
 import Notifications from './header/Notifications';
 import Help from './header/Help';
 import UserMenu from './header/UserMenu';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { faMessage, faShoppingCart, faSignIn } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
@@ -14,19 +14,25 @@ function Header({
   setSidebarOpen
 }) {
 
+    const dispatch = useDispatch()
     const [searchModalOpen, setSearchModalOpen] = useState(false)
     const { isError } = useSelector(state=> state.auth)
     const { dataUser } = useSelector(state => state.auth)
     const [ roles, setRoles ] = useState([])
     const { pathname } = location;
     const pathName = pathname.split("/")[1]
+    const [ quantity, setQuantity ] = useState(0)
     const selector = useSelector(state=>state.shoppingCart)
-    const { options, quantity } = selector   
-
+    const { shoppingCarts } = selector   
+    const dataShoppingCarts = shoppingCarts.find(e=> e.UserId == dataUser?.id )
 
     useEffect(() => {
       if(dataUser?.roles) setRoles(dataUser.roles.map(e=>e.name.toLowerCase()))
     },[dataUser])
+
+    useEffect(() => {
+      if(dataShoppingCarts) setQuantity(dataShoppingCarts?.ordersItem.length || 0)
+    },[ dataShoppingCarts, dispatch ])
 
   return (!isError) && (
     <header className="sticky top-0 bg-white border-b border-slate-200 z-30">

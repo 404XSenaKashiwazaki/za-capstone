@@ -244,8 +244,11 @@ export const cancelTransactions = async req => {
 
   try {
     const response = await snap.transaction.cancel(transactionId)
-    const orders = await Orders.findOne({ where: { transactionId } })
-    if(orders.status == "cancel") return { status:  200, message: `Pesanan berhasil dicancel`, response: {  response } }
+    await sequelize.transaction(async t=>{
+      await Orders.update({ status: "cancel" }, { where: { transactionId}, transaction: t})
+      await Payments.update({ status: "cancel" },{ where: { transactionId }, transaction: t })
+    })
+    return { status:  200, message: `Pesanan berhasil dicancel`, response: {  response } }
   } catch (error) {
     throw CreateErrorMessage("Error, Transaksi expired.", 412)
   }

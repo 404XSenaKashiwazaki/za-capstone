@@ -24,8 +24,8 @@ const Ongkir = ({
 }) => {
     const { dataUser } = useSelector(state=> state.auth)
     const selector = useSelector(state=>state.shoppingCart)
-    const [provinces, setProvinces] = useState([])
-    const [cities, setCities] = useState([])
+    const [ provinces, setProvinces ] = useState([])
+    const [ cities, setCities ] = useState([])
     const { data } = useFindAllProvincesQuery()
     const { data: dataCity } = useFindAllCityByProvincesQuery({ provId: selectedProvince },{ skip: (selectedProvince) ? false: true })
     const [ calculateShippingCost ] = useCalculateShippingCostMutation()
@@ -130,7 +130,7 @@ const Ongkir = ({
             <input
                 type="text"
                 value={form.negara}
-                name="megara"
+                name="negara"
                 required
                 onChange={handleChangeInput}
                 className="mt-1 p-1 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"

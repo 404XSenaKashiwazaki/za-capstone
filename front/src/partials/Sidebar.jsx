@@ -375,8 +375,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                       <a
                         href="#0"
                         
-                        className={`block text-slate-200 truncate transition duration-150  px-3 m-0 py-0 rounded-sm mb-0.5 last:mb-0  ${
-                          pathname.includes('site') && pathName == "api" ? 'hover:text-slate-200 ' : 'hover:text-white ' 
+                        className={`block text-slate-200 truncate transition duration-150  px-3 m-0 py-1 rounded-sm mb-0.5 last:mb-0  ${
+                          pathname.includes('site') && pathName == "api/site" ? 'hover:text-slate-200 ' : 'hover:text-white ' 
                         } ${ pathname.includes('site') && `bg-slate-900` }`}
                         onClick={(e) => {
                           e.preventDefault();
@@ -402,7 +402,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               setPostsMenu(!postsMenu)
                               localStorage.setItem("sidebar_posts",!postsMenu)
 
-                              }} className={`w-3 h-3 shrink-0 ml-1 fill-current text-slate-50 ${(open &&  (pathname === '/api/site' || pathname.includes("site")))  && 'rotate-180'}`} viewBox="0 0 12 12">
+                              }} className={`w-3 h-3 shrink-0 ml-1 fill-current text-slate-50 ${(open) && 'rotate-180'}`} viewBox="0 0 12 12">
                               <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
                             </svg>
                           </div>
@@ -410,7 +410,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                       </a>
                       <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
                     
-                        <ul className={`pl-9 mt-1 ${(postsMenu == false ) && 'hidden'}`}>
+                        <ul className={`pl-9 mt-1 ${( open == false) && 'hidden'}`}>
                           <li className="mb-1 last:mb-0">
                             <NavLink
                               end
@@ -511,44 +511,6 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   </div>
                 </NavLink>
               </li>
-            </> }
-          </ul> 
-          </>)}
-
-          { (token) ? <>
-
-           {/* More group */}
-            <div>
-            <h3 className="text-xs uppercase text-slate-900 font-semibold pl-3">
-              <span className="hidden lg:block lg:sidebar-expanded:hidden 2xl:hidden text-center w-6" aria-hidden="true">
-                •••
-              </span>
-              <span className="lg:hidden lg:sidebar-expanded:block 2xl:block">Settings</span>
-            </h3>
-            <ul className="mt-1">
-              {/* akun */}
-              <li className={`px-3 py-1 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('profile') && 'bg-slate-900'}`}>
-                <NavLink
-                  end
-                  onClick={() =>  sidebarPosts()}
-                  to={`${token && roles.includes("admin","penjual") && pathName == "api" ? `/api/profile/${dataUser.username}?p=Profile Settings` : `/profile/${dataUser.username}?p=Profile Settings`}`}
-                  className={`block text-slate-200 truncate transition duration-150 ${
-                    pathname.includes('users') ? 'hover:text-slate-200' : 'hover:text-white'
-                  }`}
-                >
-                  <div className="flex items-center">
-                  <div className="shrink-0  h-6 w-6 ">
-                    <FontAwesomeIcon className={`fill-current ${
-                          pathname === '/profile' || pathname.includes('profile') ? 'text-indigo-500' : 'text-slate-900'
-                        }`} size="1x" icon={faUserCircle} />
-                    </div>
-                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                      Profile
-                    </span>
-                  </div>
-                </NavLink>
-              </li>
-              
               { pathName != "api"  && <SidebarLinkGroup activecondition={pathname.includes('orders')} >
                 {(handleClick, open) => {
                   return (
@@ -556,7 +518,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                       <a
                         href="#0"
                         
-                        className={`block text-slate-200 truncate transition duration-150  px-3 m-0 py-2 rounded-sm mb-0.5 last:mb-0  ${
+                        className={`block text-slate-200 truncate transition duration-150  px-3 m-0 py-1 rounded-sm mb-0.5 last:mb-0  ${
                           pathname.includes('orders') && pathName != "api" ? 'hover:text-slate-200 ' : 'hover:text-white ' 
                         } ${ pathname.includes('orders') && `bg-slate-900` }`}
                         onClick={(e) => {
@@ -591,7 +553,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                       </a>
                       <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
                         
-                        <ul className={`pl-9 mt-1 ${(postsMenu == false ) && 'hidden'}`}>
+                        <ul className={`pl-9 mt-1 ${(open ) && 'hidden'}`}>
                           <li className="mb-1 last:mb-0">
                             <NavLink
                               end
@@ -667,6 +629,44 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   );
                 }}
               </SidebarLinkGroup> }
+            </> }
+          </ul> 
+          </>)}
+
+          { (token) ? <>
+
+           {/* More group */}
+            <div>
+            <h3 className="text-xs uppercase text-slate-900 font-semibold pl-3">
+              <span className="hidden lg:block lg:sidebar-expanded:hidden 2xl:hidden text-center w-6" aria-hidden="true">
+                •••
+              </span>
+              <span className="lg:hidden lg:sidebar-expanded:block 2xl:block">Settings</span>
+            </h3>
+            <ul className="mt-1">
+             
+               {/* akun */}
+               <li className={`px-3 py-1 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('profile') && 'bg-slate-900'}`}>
+                <NavLink
+                  end
+                  onClick={() =>  sidebarPosts()}
+                  to={`${token && roles.includes("admin","penjual") && pathName == "api" ? `/api/profile/${dataUser.username}?p=Profile Settings` : `/profile/${dataUser.username}?p=Profile Settings`}`}
+                  className={`block text-slate-200 truncate transition duration-150 ${
+                    pathname.includes('users') ? 'hover:text-slate-200' : 'hover:text-white'
+                  }`}
+                >
+                  <div className="flex items-center">
+                  <div className="shrink-0  h-6 w-6 ">
+                    <FontAwesomeIcon className={`fill-current ${
+                          pathname === '/profile' || pathname.includes('profile') ? 'text-indigo-500' : 'text-slate-900'
+                        }`} size="1x" icon={faUserCircle} />
+                    </div>
+                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                      Profile
+                    </span>
+                  </div>
+                </NavLink>
+              </li>
               {/* logout */}
               <li className={`px-3 py-1 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('logout') && 'bg-slate-900'} cursor-pointer`}>
                 <div
@@ -679,7 +679,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   <div className="shrink-0  h-6 w-6 ">
                     <FontAwesomeIcon className={`fill-current ${
                           pathname === '/logout' || pathname.includes('logout') ? 'text-indigo-500' : 'text-slate-900'
-                        }`} size="1x" icon={faPowerOff} />
+                        }`} size="1x" icon={faSignOutAlt} />
                     </div>
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                       Logout

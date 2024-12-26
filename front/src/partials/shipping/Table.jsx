@@ -31,7 +31,7 @@ function Table({
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Ya, selesai!',
-      cancelButtonText: 'Tidak, batal!',
+      cancelButtonText: 'Tidak!',
 
       reverseButtons: true
   }).then(async (result) => {

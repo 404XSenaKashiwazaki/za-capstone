@@ -6,7 +6,7 @@ import { Helmet } from 'react-helmet'
 
 const OrderSuccess = () => {
     return (
-        <div className="flex items-center justify-center min-h-screen md:-mt-20 lg:-mt-20 xl:mt-0">
+        <div className="flex items-center justify-center min-h-screen -mt-16 xs:-mt-20">
             <div className="bg-white p-8 rounded-lg shadow-lg max-w-md text-center">
                 <h2 className="text-3xl font-bold text-indigo-600 mb-4">Order Sukses!</h2>
                 <p className="text-gray-700 mb-6">Terima kasih telah melakukan pembelian. Pesanan Anda sedang diproses.</p>

@@ -10,6 +10,10 @@ const FooterHome = ({ site }) => {
     const sites = useSelector(state=> state.sites)
    return (
    <div className="mx-5">
+        <div>
+            <h2 className="text-xl font-bold mb-2"><FontAwesomeIcon icon={faBank} /> Pembayaran</h2>
+            <PaymentsSupports/>
+        </div>
         <div className="mx-0 h-auto box-border mt-1">
         <div className="w-full mx-0">
             <footer className="footer py-10  text-base-content mt-5">
@@ -28,10 +32,6 @@ const FooterHome = ({ site }) => {
                 </nav>
             </footer> 
         </div>
-        </div>
-        <div>
-            <h2 className="text-xl font-bold mb-2"><FontAwesomeIcon icon={faBank} /> Pembayaran</h2>
-            <PaymentsSupports/>
         </div>
         <footer className="footer px-0 py-4 border-t-slate-50  text-base-content border-base-300 mt-5">
             <aside className="items-center grid-flow-col text-slate-600">

@@ -118,6 +118,8 @@ export const removeProfile = async (req,res)=> {
 
 
 const createToken = (secretKey,users,expires)=> {
+  console.log({ users:users.UsersDetail });
+  
   const roles = users.Roles
   const navigate = roles.map(t => (t.name.trim().toLowerCase().includes("admin","penjual")) ? "/api/dashboard" : "/")
   const jwtToken = jwt.sign({ 

@@ -74,8 +74,8 @@ const BannerSlider = () => {
               className="w-full h-52 object-fill"
             />
             <div className="absolute p-3 bottom-2 w-full flex flex-col justify-center items-center  bg-opacity-10 text-slate-900 ">
-              <h2 className="text-md xs:text-2xl font-bold ">{banner.title}</h2>
-              <p className="text-sm xs:text-lg">{ banner.desk } </p>
+              <h2 className="text-md xs:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 via-cyan-400  to-blue-500">{banner.title}</h2>
+              <p className="text-sm xs:text-lg bg-clip-text text-transparent bg-gradient-to-r from-purple-600 via-cyan-400  to-blue-500">{ banner.desk } </p>
             </div>
           </div>
         ))}

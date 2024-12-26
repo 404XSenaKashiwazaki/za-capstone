@@ -2,13 +2,13 @@
 import { useFindOneProductsQuery } from "../features/api/apiProductsSlice";
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faArrowRotateBack, faCartShopping, faCheckSquare, faCommentSms, faHashtag, faImage, faMessage, faRankingStar, faSearch, faShop, faShoppingCart, faStar, faTags, faXmarkSquare } from '@fortawesome/free-solid-svg-icons'
+import { faArrowLeft, faArrowRotateBack, faCartShopping, faCheckSquare, faCommentSms, faImage, faMessage, faRankingStar, faSearch, faShop, faShoppingCart, faStar, faTags, faXmarkSquare } from '@fortawesome/free-solid-svg-icons'
 import { useFindAnimeOngoingQuery, useHomeFindOneEpisodeQuery } from "../features/api/apiHomeSlice";
 import CardSeries from "../components/CardSeries";
 import { formatDiskon, formatRp } from "../utils/FormatRp";
 import { handleBuyNow } from "../utils/BuyNow";
 import { useDispatch, useSelector } from "react-redux";
-import { removeMessage, setMessage, setOptions, setQuantity, setShoppingCart } from "../features/shoppingCartSlice"
+import { removeMessage, setMessage, setOptions, setQuantity } from "../features/shoppingCartSlice"
 import { Toast} from '../utils/sweetalert'
 import TabProductsDetail from "../components/TabProductsDetail";
 import TimeAgo from '../components/TimeAgo'
@@ -63,13 +63,70 @@ const ProductsDetail = ({ site }) => {
   },[dispatch, message])
 
 
-  const handleAddToCart =  async ({ id},quantity, UserId) => {
+  const handleAddToCart =  async ({ id, harga_produk, nama_produk, desk_produk,ImageProducts,stok_produk,slug},quantity, UserId, username) => {
+    if(options && options?.orders) {
+        const orders_item = options.orders.orders_item.map((e,i) => {
+            const quantityOld = e.quantity + quantity
+            const price = harga_produk * quantityOld
+            if(e.ProductId == id) return { ...e, quantity: quantityOld }
+            return e
+        })
+
+        if (!options.orders.orders_item.some(e => e.ProductId === id)) {
+    
+        const price = harga_produk * quantity
+        orders_item.push({
+            ProductId: parseInt(id),
+            // price: harga_produk,
+            // checked: true,
+            quantity: quantity,
+            // desk_produk: desk_produk,
+            // nama_produk: nama_produk,
+            // slug: slug,
+            // stok: stok_produk,
+            // image_products: ImageProducts[0].url_image,
+            // total: price 
+        });
+    }
+  
+    const total_price = fnTotalPrice(orders_item)
+    
+    fnDispatch(setOptions({ orders: {...options.orders, orders_item }}))
+    // fnDispatch(setOptions({ orders: {...options.orders, orders_item, total_price }}))
     fnDispatch(setMessage("Produk berhasil ditambahkan"))
-    dispatch(setShoppingCart({ ProductId: parseInt(id), UserId: parseInt(UserId), quantity }))
+    fnDispatch(setQuantity(orders_item.length))
+
+    }else{
+        const orders = {
+            UserId: parseInt(UserId),
+            status: "Pending",
+            orders_item: [{
+                ProductId: parseInt(id),
+                // price: harga_produk,
+                // checked: true,
+                quantity: quantity,
+                // desk_produk: desk_produk,
+                // nama_produk: nama_produk,
+                // slug: slug,
+                // stok: stok_produk,
+                // image_products: ImageProducts[0].url_image,
+                // total: harga_produk * quantity
+            }]
+        }
+        const total_price = fnTotalPrice(orders.orders_item)
+        // fnDispatch(setOptions({ orders: { ...orders, total_price} }))
+        fnDispatch(setOptions({ orders: { ...orders } }))
+        fnDispatch(setMessage("Produk berhasil ditambahkan"))
+
+        fnDispatch(setQuantity(orders.orders_item.length))
+    }
   }
 
   const fnDispatch = options => dispatch(options)  
 
+  const fnTotalPrice = data => data.reduce((acu,cure) => acu + cure.total, 0)
+
+  
   const handleChangeImg = ({ url_image, nama_image }, i) => {
     setPoster({ url: url_image, nama: nama_image, index: i })
   }
@@ -82,6 +139,10 @@ const ProductsDetail = ({ site }) => {
     if (qty > 1) {
       setQty(qty - 1);
     }
+  }
+
+  const handleAddComment = () => {
+
   }
 
   const RatingIcon = ({ratingProd, size}) => {
@@ -169,12 +230,7 @@ const ProductsDetail = ({ site }) => {
           <div className="mt-2">
             <RatingIcon ratingProd={ratingProd} />
           </div>
-          <div className="mt-3">
-            <Link to={`/?c=${product?.Category?.nama}`} >
-                <FontAwesomeIcon icon={faHashtag} /> { product?.Category?.nama} 
-            </Link> 
-          </div>
-          <div className="flex md:items-center flex-col justify-start md:flex-row p-0 md:gap-10 gap-2 mt-2 sm:mt-3">
+          <div className="flex md:items-center flex-col justify-start md:flex-row p-0 md:gap-10 gap-2 mt-2 sm:mt-5">
               {/* Quantity Selector */}
             <div className="flex items-center flex-initial w-1/2 ">
               <button

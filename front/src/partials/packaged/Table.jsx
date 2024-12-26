@@ -22,8 +22,8 @@ function Table({
       text: "Anda akan membatalkan pesanan?",
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Ya, hapus!',
-      cancelButtonText: 'Tidak, batal!',
+      confirmButtonText: 'Ya, batalkan!',
+      cancelButtonText: 'Tidak!',
 
       reverseButtons: true
   }).then(async (result) => {

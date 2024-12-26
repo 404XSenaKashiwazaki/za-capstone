@@ -4,7 +4,7 @@ import { formatDiskon, formatRp } from '../utils/FormatRp'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faShoppingCart } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
-import { setOptions, setRemoveOption, removeQuantity, setJumlah,setQuantity, setCheckout, removeCheckout, setShoppingCart, setShoppingCartOrderItem, removeShoppingCart } from "../features/shoppingCartSlice"
+import { setOptions, setRemoveOption, removeQuantity, setJumlah,setQuantity, setCheckout, removeCheckout } from "../features/shoppingCartSlice"
 import EmptyShoppingCart from '../components/EmptyShoppingCart'
 import { useFindAllProductsCartsQuery } from '../features/api/apiShoppingCart'
 import { Helmet } from 'react-helmet'
@@ -21,21 +21,21 @@ const ShoppingCart = ({ site }) => {
     const [ checkedId, setCheckedId ] = useState(null)
     const [ checkedAll, setCheckedAll ] = useState(false)
     const selector = useSelector(state=>state.shoppingCart)
-    const {  shoppingCarts } = selector
-    const { dataUser } = useSelector(state=> state.auth) 
+    const { dataUser } = useSelector(state=> state.auth)
+    const { options } = selector    
     const { data } = useFindAllProductsCartsQuery({ username: dataUser?.username, productId },{ skip: (productId.length == 0)})
-    const dataShoppingCarts = shoppingCarts.find(e=> e.UserId == dataUser?.id )
-    
+
     useEffect(() => {
-        if(dataShoppingCarts && dataShoppingCarts.ordersItem.length > 0) {
-            setProductId(dataShoppingCarts.ordersItem.map(e=> e.ProductId))
+
+        if(options?.orders) {
+            setProductId(options.orders.orders_item.map(e=> e.ProductId))
         }
         
-        if(data?.response?.products && dataShoppingCarts && dataShoppingCarts.ordersItem.length > 0) {
+        if(data?.response?.products && options?.orders?.orders_item.length > 0) {
             const res = data.response.products.map((e,i)=> {
-                const quantity = dataShoppingCarts.ordersItem.filter(e2=> (e2.ProductId == e.id))[0]?.quantity
+                const quantity = options.orders.orders_item.filter(e2=> (e2.ProductId == e.id))[0]?.quantity
                 return {
-                    ...dataShoppingCarts.ordersItem[i],
+                    ...options.orders.orders_item[i],
                 ProductId: e.id,
                 price: formatDiskon(e.harga_produk, e.Diskon.diskon),
                 quantity: quantity,
@@ -57,14 +57,39 @@ const ShoppingCart = ({ site }) => {
             setQty(cartsChecked)
             setCheckedAll(cartsChecked == res.length ? true : false)
         }
-    },[ data, dataShoppingCarts ])
+    },[ data, options ])
 
     useEffect(() => {
         if(dataUser) setUsername(dataUser.username)
     },[ dataUser ])
 
-    const updateQuantity = (id, quantity,) => {
-        dispatch(setShoppingCart({ ProductId: parseInt(id), UserId: parseInt(dataUser.id), quantity,checkedId }))
+    const updateQuantity = (id, quantity) => {
+        if(options && options?.orders){
+            const shoppingCart = options.orders
+            let ordersItem = shoppingCart.orders_item 
+
+            ordersItem = ordersItem.map(e=> {
+                if(id == e.ProductId) {
+                    const newQuantity = (quantity == -1) ? e.quantity - 1 : e.quantity + 1
+                    if(newQuantity < 1) return null
+                    const totalPrice = e.price * newQuantity
+
+                    return { ...e, quantity: newQuantity }
+                }
+                return e
+            }).filter(e => e != null)
+            
+            if(ordersItem.length == 0) {
+                dispatch(setRemoveOption())
+                setCarts([])
+                setCheckedId(null)
+                setCheckedAll(false)
+                dispatch(removeQuantity())
+            }else{
+                const totalPrice = ordersItem.reduce((acu,cure) => acu + cure.total, 0)
+                dispatch(setOptions({ orders: {...shoppingCart, orders_item: ordersItem }}))
+            }
+        }
     }
 
     const handleChecked = (evnt,targetId) => {
@@ -74,36 +99,40 @@ const ShoppingCart = ({ site }) => {
             if(targetId != "all") return (targetId == e.ProductId) ? { ...e, checked } : e
             return { ...e, checked }
         })
-        
+    
         setCheckedId(id);
+    
         const tw = id.filter(e=> e.checked == true);
         (tw.length == carts.length) ? setCheckedAll(true) : setCheckedAll(false)
+        dispatch(setOptions({ orders: {...options.orders, orders_item: id }}))
         setQty(tw.length)
-    
-        dispatch(setShoppingCartOrderItem({ UserId: parseInt(dataUser.id), ordersItem: id, checkedId: tw }))
         const totalPrice = tw.reduce((acu,cure) => acu + cure.total, 0)
         setTotal(totalPrice)
-        handleItemCheckout(tw)
-    }
-
-    const handleItemCheckout = (tw) => {
         if(tw.length == 0) {
             dispatch(removeCheckout())
         }else{
-            dispatch(setCheckout({ orders: { UserId: parseInt(dataUser.id), ordersItem: tw.map(e=> (e.checked) ? ({ 
+            // dispatch(setOptions({ orders: {...options.orders, orders_item: tw }}))
+            dispatch(setCheckout({ orders: {...options.orders, orders_item: tw.map(e=> (e.checked) ? ({ 
                 ProductId: e.ProductId, 
                 checked: e.checked,
                 quantity: e.quantity }) : null).filter(e=>e!=null) 
             }}))   
         }
     }
+    
 
     const handleDelCartProduct = (id) => {
-        let ordersItem = dataShoppingCarts.ordersItem
+        const shoppingCart = options.orders
+        let ordersItem = shoppingCart.orders_item 
         ordersItem = ordersItem.filter(e => e.ProductId != id)
-        dispatch(setShoppingCartOrderItem({ UserId: parseInt(dataUser.id), ordersItem, checkedId }))
-        
-        handleItemCheckout(ordersItem)
+
+        // const totalPrice = ordersItem.reduce((acu,cure) => acu + cure.total, 0)
+        dispatch(setOptions({ orders: {...shoppingCart, orders_item: ordersItem}}))
+        setCarts(ordersItem)
+        // setCheckedId(ordersItem.map(e=>({ ProductId: e.ProductId, checked: true })))
+        // setCheckedAll(true)
+        if(ordersItem.length == 0) dispatch(setRemoveOption())
+        dispatch(setQuantity(ordersItem.length))
     }
 
     return  (
@@ -113,7 +142,7 @@ const ShoppingCart = ({ site }) => {
             { site }- Keranjang Belanja
         </title>
     </Helmet>
-    { (dataShoppingCarts && dataShoppingCarts.ordersItem.length > 0 && carts.length > 0) 
+    { (options?.orders && carts.length > 0) 
     && ( <div className="flex flex-col md:flex-row md:justify-center py-3 gap-1">
         <div className="w-full bg-white p-6 shadow-md rounded-lg ">
             <h1 className="text-lg font-bold mb-6"><FontAwesomeIcon icon={faShoppingCart} /> Keranjang Belanja</h1>
@@ -172,9 +201,9 @@ const ShoppingCart = ({ site }) => {
                     </td>
                     <td className="py-4">
                     <div className="flex items-center">
-                        <button onClick={() => updateQuantity(item.ProductId, -1)} className="px-2 h-8 py-1 border rounded-l">-</button>
-                        <span className="px-4 w-auto h-8 py-1 border">{item.quantity || ""}</span>
-                        <button onClick={() => updateQuantity(item.ProductId, 1)} className="px-2 h-8 py-1 border rounded-r">+</button>
+                        <button onClick={() => updateQuantity(item.ProductId, -1)} className="px-2 py-1 border rounded-l">-</button>
+                        <span className="px-4 py-1 border">{item.quantity}</span>
+                        <button onClick={() => updateQuantity(item.ProductId, 1)} className="px-2 py-1 border rounded-r">+</button>
                     </div>
                     </td>
                     <td className="py-4">
@@ -218,7 +247,7 @@ const ShoppingCart = ({ site }) => {
         </div>) 
     
     }
-    { (!dataShoppingCarts || dataShoppingCarts?.ordersItem.length == 0) && <EmptyShoppingCart /> }
+    { (!options || options.length == 0) && <EmptyShoppingCart /> }
     </>
     )
 }

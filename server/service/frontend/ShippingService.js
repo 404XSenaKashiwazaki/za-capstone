@@ -17,20 +17,26 @@ export const findAll = async (req) => {
     const where = (paranoid) 
     ? { where: {
         UserId: users.id,
-        status: "dikirim",
+        status: {
+            [Op.or]: ["dikirim","diperjalanan"]
+        },
         deletedAt: {
             [Op.is]: null
         }
         } }
         : { where: {
         UserId: users.id,
-        status: "dikirim",
+        status: {
+            [Op.or]: ["dikirim","diperjalanan"]
+        },
         deletedAt: {
             [Op.not]: null
         }
     } }
 
-    const whereCount = { where: { status: "dikirim",deletedAt: { [(paranoid) ? Op.is : Op.not] : null } } , paranoid: false}
+    const whereCount = { where: { status: {
+        [Op.or]: ["dikirim","diperjalanan"]
+    },deletedAt: { [(paranoid) ? Op.is : Op.not] : null } } , paranoid: false}
     const orders = await Orders.findAll({...where,include: [{ model: Products, include: ImageProducts },{ model: Users }], paranoid ,limit, offset, order: [["id","DESC"]]})   
     const totals = await Orders.count(whereCount)
 
@@ -50,8 +56,12 @@ export const findOne = async (req) => {
     const { produkid } = req.params
     const paranoid = req.query.type == "restore" ? false : true
     const where = paranoid 
-    ? { where: { [Op.and]: { id: produkid, status: "dikirim", deletedAt: { [Op.is]: null} }  } }
-    : { where: { [Op.and]: { id: produkid, status: "dikirim",eletedAt: { [Op.not]: null} }  } }
+    ? { where: { [Op.and]: { id: produkid, status: {
+        [Op.or]: ["dikirim","diperjalanan"]
+    }, deletedAt: { [Op.is]: null} }  } }
+    : { where: { [Op.and]: { id: produkid, status: {
+        [Op.or]: ["dikirim","diperjalanan"]
+    },eletedAt: { [Op.not]: null} }  } }
 
     const orders = await Orders.findOne({...where,include: [{ model: Products, include: ImageProducts },{model: Payments},{ model: Users,include:[UsersDetails] }], paranoid })   
     if(!orders) throw CreateErrorMessage("Tidak ada data",404)

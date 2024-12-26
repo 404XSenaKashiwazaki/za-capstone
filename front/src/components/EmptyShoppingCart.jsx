@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 
 const EmptyShoppingCart = () => {
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100 md:-mt-56 lg:mt-56 xl:-mt-24">
+        <div className="flex items-center justify-center min-h-screen bg-gray-100 -mt-16 xs:-mt-20">
             <div className="bg-white p-8 rounded-lg shadow-lg max-w-md text-center">
             <h2 className="text-3xl font-bold text-red-600 mb-4">Keranjang Anda Kosong</h2>
             <p className="text-gray-700 mb-6">

@@ -16,11 +16,11 @@ const ShowPaymentCode = ({ vaNumbers,showModal, setShowModal }) => {
         }) 
     }
 
-    const ModalButton = () => <button onClick={() => setShowModal(false)} className="w-full bg-gradient-to-r from-purple-500 to-blue-500 text-white font-bold py-1 px-5 rounded-sm hover:bg-gradient-to-l focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50">Ok!</button>
+    const ModalButton = () => <button onClick={() => setShowModal(false)} className="w-full bg-gradient-to-r from-purple-500 to-blue-500 text-white font-bold py-1 px-5 rounded-sm hover:bg-gradient-to-l focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50">Ok</button>
     
     return (
         <> 
-            <Modal mt="mt-28" type="sm" title={<ModalTitle  />}  button={<ModalButton />} setId={() => {}} showModal={showModal} setShowModal={setShowModal}>
+            <Modal mt="mt-5" type="sm" title={<ModalTitle  />}  button={<ModalButton />} setId={() => {}} showModal={showModal} setShowModal={setShowModal}>
                 <div className="w-full mt mb-1 p-4 h-auto">
                 <p className="text-md font-medium">Total Pembayaran: <span className="text-lg font-bold text-indigo-700">{ formatRp(vaNumbers?.amount)  }</span> </p>
                 <div>

@@ -12,7 +12,7 @@ const SortProducts = ({ sortOrder, setSortOrder  }) => {
     return (
         <div className="mb-3 mt-2 sm:mb-0">
             <button
-            className="text-xs font-medium bg-blue-500 text-white py-1 px-4 rounded hover:bg-blue-600 flex items-center"
+            className="text-xs font-medium bg-gradient-to-r w-auto from-purple-900 via-sky-600 to-blue-500 text-white focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50  py-1 px-4 rounded flex items-center"
             onClick={toggleSortOrder}
             >
             <FontAwesomeIcon

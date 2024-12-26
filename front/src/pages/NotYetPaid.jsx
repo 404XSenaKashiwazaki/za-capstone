@@ -5,7 +5,7 @@ import Table from '../partials/notyetpaid/Table'
 import TableHeader from '../components/TableHeader'
 import { Toast} from '../utils/sweetalert'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUsers } from '@fortawesome/free-solid-svg-icons'
+import { faExclamationTriangle, faUsers } from '@fortawesome/free-solid-svg-icons'
 import ButtonPagination from '../components/ButtonPagination'
 import Add from "../partials/notyetpaid/Form"
 import Detail from '../partials/notyetpaid/Detail'
@@ -113,10 +113,8 @@ const NotYetPaid = ({ site }) => {
         try {
             const res = await cancelTransaction({ data: { transactionId },username: dataUser.username }).unwrap()
             console.log({ res });
-            if(res.status == 200){
-                dispatch(setMessage(res.message))
-                refetch()
-            }
+            dispatch(setMessage(res.message))
+            refetch()
         } catch (error) {
             console.log(error)
             setMsg(error.data.errors[0].msg)
@@ -134,6 +132,8 @@ const NotYetPaid = ({ site }) => {
     }
 
     return (
+        <>
+        <div className="bg-yellow-500 text-slate-100 mb-2 mx-0 py-3 px-2 rounded-sm text-sm font-medium"><FontAwesomeIcon icon={faExclamationTriangle} /> Untuk memastikan transaksi Anda berhasil atau gagal, silakan tekan tombol Refresh.</div>
         <div className="col-span-full xl:col-span-6 bg-white shadow-lg rounded-sm border border-slate-200">
             <Helmet >
                 <title>{ site } - Belum Bayar</title>
@@ -142,7 +142,6 @@ const NotYetPaid = ({ site }) => {
             { showModalDetail && <Detail username={dataUser.username} id={id} setId={setId} showModal={showModalDetail} setShowModal={setShowModalDetail}/> }
             { showModalAddImage && <ShowPaymentCode vaNumbers={vaNumbers} showModal={showModalAddImage} setShowModal={setShowModalAddImage}/> }
             { showContact && <ContactModal title={"Hubungi penjual"} id={id} itemContact={itemContact} showModal={showContact} setShowModal={setShowContact} /> }
-
             <TableHeader 
             title={ <span className="text-md"><FontAwesomeIcon  icon={faUsers}/> Belum Bayar</span> }
             type="noButton"
@@ -163,6 +162,7 @@ const NotYetPaid = ({ site }) => {
             checkedId={checkedId}
             handleClickBtnAdd={handleClickAddForm}
             setMessage={setMessage}
+            refetch={refetch}            
             />
             {/* end table header */}
             {/* table */}
@@ -192,6 +192,7 @@ const NotYetPaid = ({ site }) => {
             }
             {/* end pagination */}
         </div>
+        </>
     )
 }
 

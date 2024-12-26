@@ -5,7 +5,7 @@ import { formatDiskon, formatRp } from "../utils/FormatRp"
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useCheckoutMutation, useCreateTransactionMutation, useDeleteOrderCheckoutMutation, useFindAllProductsCartsQuery, useStoreOrdersItemsMutation, useStorePaymentMutation } from "../features/api/apiShoppingCart"
-import { setMessage, removeMessage, setRemoveOption, removeQuantity, resetState, resetShoppingCarts, setShoppingCarts, removeCheckout, setOptions, setQuantity, removeShoppingCart } from "../features/shoppingCartSlice"
+import { setMessage, removeMessage, setRemoveOption, removeQuantity, resetState, resetShoppingCarts, setShoppingCarts, removeCheckout, setOptions, setQuantity } from "../features/shoppingCartSlice"
 import { Toast} from '../utils/sweetalert'
 import { v4 as uuidv4 } from 'uuid'
 import { useSendEmailsCheckoutMutation } from "../features/api/apiSendEmailsSlice"
@@ -45,7 +45,7 @@ const CheckOutPage = ({ site }) => {
     const [ emailError, setEmailError ] = useState('')
     const [ promoCode, setPromoCode ] = useState('')
     const selector = useSelector(state=>state.shoppingCart)
-    const { shoppingCarts, message, carts, checkouts } = selector    
+    const { options, message, carts, checkouts } = selector    
     const [ checkout, { isLoading , data: dataCheckout} ] = useCheckoutMutation()
     const [ productId, setProductId ] = useState([])
     const [ total, setTotal ] = useState(0) 
@@ -67,29 +67,6 @@ const CheckOutPage = ({ site }) => {
     })
     const [ msg, setMsg ] = useState("")
     const [ weight, setWeight ] = useState(1)
-console.log({ dataUser });
-
-    useEffect(() => {
-        if(dataUser) {
-            setForm({
-                nama: dataUser.namaDepan +" "+ dataUser.namaBelakang,
-                username: dataUser.username,
-                email: dataUser.email,
-                negara: dataUser.detailUsers.negara,
-                provinsi: dataUser.detailUsers.provinsi,
-                kota: dataUser.detailUsers.kota,
-                kodePos: dataUser.detailUsers.kodePos,
-                alamat: dataUser.detailUsers.alamat
-            })
-            const validateCheckout = shoppingCarts.find(e=> e.UserId == dataUser.id)
-            setSelectedProvince(dataUser.detailUsers.provinsi)
-            setSelectedCity(dataUser.detailUsers.kota)
-            if(!validateCheckout) navigate("/")
-            if(validateCheckout && validateCheckout.ordersItem.length == 0) navigate("/")
-        }
-
-
-    },[ dataUser ])
 
     useEffect(() => {
         const script = document.createElement("script")
@@ -104,13 +81,13 @@ console.log({ dataUser });
     },[ ])
 
     useEffect(() => {
-        if(checkouts?.orders?.ordersItem) setProductId(checkouts.orders.ordersItem.map(e=> e.ProductId))
-        if(data?.response?.products && checkouts?.orders?.ordersItem.length > 0) {
+        if(checkouts?.orders) setProductId(checkouts.orders.orders_item.map(e=> e.ProductId))
+        if(data?.response?.products && checkouts?.orders?.orders_item.length > 0) {
             const res = data.response.products.map((e,i)=> {
                 setWeight(e.berat)
-                const quantity = checkouts.orders.ordersItem.filter(e2=> (e2.ProductId == e.id))[0]?.quantity
+                const quantity = options.orders.orders_item.filter(e2=> (e2.ProductId == e.id))[0]?.quantity
                 return {
-                    ...checkouts.orders.ordersItem[i],
+                    ...options.orders.orders_item[i],
                 ProductId: e.id,
                 price: formatDiskon(e.harga_produk, e.Diskon.diskon),
                 quantity: quantity,
@@ -123,11 +100,15 @@ console.log({ dataUser });
                 total: formatDiskon(e.harga_produk, e.Diskon.diskon) * quantity
                 }
             })
-
+            console.log({ res });
+            
             const totalPrice = res.reduce((total, item) => total + item.price * item.quantity, 0)
+            console.log({ totalPrice });
+            
             setTotal(totalPrice)
             dispatch(setShoppingCarts(res))
         }
+        if(!checkouts) navigate("/")
     },[ data, checkouts ])
 
     useEffect(() => {
@@ -137,6 +118,18 @@ console.log({ dataUser });
         setMsg("")
     },[dispatch, message, msg])
 
+    useEffect(() => {
+        if(dataUser) setForm({
+            nama: dataUser.namaDepan +" "+ dataUser.namaBelakang,
+            username: dataUser.username,
+            email: dataUser.email,
+            negara: dataUser.detailUsers.negara,
+            provinsi: dataUser.detailUsers.provinsi,
+            kota: dataUser.detailUsers.kota,
+            kodePos: dataUser.detailUsers.kodePos,
+            alamat: dataUser.detailUsers.alamat
+        })
+    },[ dataUser ])
 
     const handleCheckOutPayment = async () => {
         if(form.username == "" || form.email == "" || form.provinsi == "" || form.kota == "" || form.kodePos == "" || form.alamat == "") return setMsg("Detail permbayaran tidak boleh ada yang kosong")
@@ -206,11 +199,16 @@ console.log({ dataUser });
         createTransaction({ data: data ,username: dataUser.username }).then(res => {
             const snapInstance = window.snap
             console.log({ res });
-    
+
+            const ProdId = carts.map(e=> e.ProductId)
+            let ordersItem = options.orders.orders_item.filter(e=> !ProdId.includes(e.ProductId))
+            ordersItem = ordersItem.length === options.orders.orders_item.length ? [] : ordersItem
+
             snapInstance.pay(res.data.response.transactionToken, {
                 onSuccess: async (result) => {
                     if (successHandled) return
                     successHandled = true
+                    handleDispatch(options,ordersItem)
                     try {
                         await handleStoreData(data,result,`/order/success/${result.transaction_id}`,"success")
                     } catch (error) {console.log(error)}
@@ -218,6 +216,7 @@ console.log({ dataUser });
                 onPending: async (result) => {
                     if (successHandled) return
                     successHandled = true
+                    handleDispatch(options,ordersItem)
                     try {
                         await handleStoreData(data,result,`/order/payment-confirm/${result.transaction_id}`,"pending")
                     } catch (error) {console.log(error)}
@@ -236,11 +235,24 @@ console.log({ dataUser });
         }).catch(err=>console.log(err))
     }
 
-    const handleDispatch = (ordersItem) => {
-        dispatch(removeShoppingCart({UserId: parseInt(dataUser.id), ordersItem}))
+    const handleDispatch = (opt,ordersItem) => {
+        if(ordersItem.length == 0) {
+            dispatch(resetState())
+            dispatch(setRemoveOption())
+            dispatch(removeQuantity())
+            dispatch(resetShoppingCarts())
+            dispatch(removeCheckout())
+        }else{
+            dispatch(setOptions({ orders: {...opt.orders, orders_item: ordersItem} }))
+            dispatch(setShoppingCarts(ordersItem))
+            dispatch(setQuantity(ordersItem.length))
+            dispatch(removeCheckout())
+        }
     }
 
     const handleStoreData = async (data,result,navigateUrl,type) => {
+        console.log({ type });
+        
         const orders = [{ 
             ...data.orders, 
             UserId: dataUser.id,
@@ -263,7 +275,6 @@ console.log({ dataUser });
         }).unwrap()
 
         console.log('Success:', result)
-        handleDispatch(checkouts.orders.ordersItem)
         navigate(navigateUrl)
     }
 

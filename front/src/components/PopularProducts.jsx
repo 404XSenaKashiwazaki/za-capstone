@@ -72,7 +72,7 @@ const PopularProducts = ({ populars }) => {
               alt={p.nama_produk}
               className="w-20 h-20 object-fill "
             />
-            <span className="ml-2 absolute -top-1 -right-1 text-sm font-light text-red-500 px-2 py-0 bg-slate-800 rounded-sm">Diskon{ p?.Diskon?.diskon  } %</span>
+            <span className="ml-2 absolute -top-1 -right-1 text-sm font-light bg-gradient-to-r w-auto from-red-700 to-yellow-500 text-white px-2 py-0  hover:bg-gradient-to-l focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50 rounded-sm">Diskon { p?.Diskon?.diskon  } %</span>
             <div className="flex flex-col justify-center items-center  bg-opacity-10 text-slate-900 w-full h-full mt-2">
               <h2 className="text-sm font-medium w-full overflow-hidden text-ellipsis whitespace-nowrap text-gray-900">{p.nama_produk}</h2>
                 <div className="text-xs mt-1 w-full overflow-hidden text-ellipsis whitespace-nowrap text-gray-900 flex flex-row">

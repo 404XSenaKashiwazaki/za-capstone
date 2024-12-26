@@ -7,7 +7,8 @@ export const initialState = {
     quantity: localStorage.getItem("shoppingCart") ? JSON.parse(localStorage.getItem("shoppingCart")).orders.orders_item.length : 0,
     carts: [],
     checkouts: localStorage.getItem("checkout") ? JSON.parse(localStorage.getItem("checkout")) : null,
-    totals: 0
+    totals: 0,
+    shoppingCarts: localStorage.getItem("shoppingCarts") ? JSON.parse(localStorage.getItem("shoppingCarts")) : [],
 }
 
 export const shoppingCartSlice = createSlice({
@@ -66,7 +67,71 @@ export const shoppingCartSlice = createSlice({
             state.carts = []
         },
         setTotals: (state, action) =>{  },
-        removeTotals: state => { }
+        setShoppingCart: (state,action) => { 
+            const { UserId, ProductId, quantity, checkedId } = action.payload
+            const userOrder = state.shoppingCarts.find((order) => order.UserId == UserId)
+            if (userOrder) {
+                const ordersItem = userOrder.ordersItem.findIndex((d) => d.ProductId == ProductId);
+
+                (ordersItem != -1) 
+                ? userOrder.ordersItem[ordersItem].quantity += quantity
+                : userOrder.ordersItem.push({ ProductId, quantity })
+
+                const t = userOrder.ordersItem[ordersItem]?.quantity
+                if(t < 1) userOrder.ordersItem.splice(ordersItem,1) 
+
+                userOrder.ordersItem = userOrder.ordersItem.map(e=> {
+                    let re = ""
+                    if(checkedId){
+                        re = checkedId.find(e2 => e2.ProductId == e.ProductId)
+                    }
+                    return { ...e, checked: re?.checked || false }
+                })
+                const shoppingCarts = state.shoppingCarts.map((order) => order.UserId == UserId ? { 
+                    ...userOrder,
+                    qty: userOrder.ordersItem.length 
+                } : order)
+                state.shoppingCarts = shoppingCarts
+
+                localStorage.setItem("shoppingCarts",JSON.stringify(shoppingCarts))
+                localStorage.setItem("checkout",JSON.stringify(userOrder))
+            } else {
+                const ordersItem = [{ ProductId, quantity }]
+                const shoppingCarts = [ ...state.shoppingCarts, { UserId, ordersItem: ordersItem, qty: ordersItem.length }]
+                state.shoppingCarts =  shoppingCarts
+                localStorage.setItem("shoppingCarts",JSON.stringify(shoppingCarts))
+            }
+        },
+        setShoppingCartOrderItem: (state,action) => {
+            let { UserId, ordersItem, checkedId } = action.payload
+            ordersItem = ordersItem.map(e=> {
+                    let re = ""
+                    if(checkedId){
+                        re = checkedId.find(e2 => e2.ProductId == e.ProductId)
+                    }
+                    return { ...e, checked: re?.checked || false }
+                })
+            const shoppingCarts = state.shoppingCarts.map(e=> e.UserId == UserId ? { ...e, ordersItem, qty: ordersItem.length } : e)
+            state.shoppingCarts = shoppingCarts
+            const checkoutOrderItems = shoppingCarts.find((order) => order.UserId == UserId)
+            localStorage.setItem("shoppingCarts",JSON.stringify(shoppingCarts))
+            
+            localStorage.setItem("checkout",JSON.stringify(checkoutOrderItems))
+        },
+        removeShoppingCart: (state,action) => {
+            const { UserId, ordersItem } = action.payload
+            const shoppingCarts = state.shoppingCarts.map((order) => {
+                const delOrdersItems = order.ordersItem.filter((item) => !ordersItem.find(e=> item.ProductId == e.ProductId))
+                if(order.UserId == UserId) return { ...order,ordersItem: delOrdersItems,qty: delOrdersItems.length}
+                return order
+            })
+            state.shoppingCarts = shoppingCarts
+    
+            const checkoutOrderItems = shoppingCarts.find((order) => order.UserId == UserId)
+            localStorage.setItem("shoppingCarts",JSON.stringify(shoppingCarts))
+            localStorage.setItem("checkout",JSON.stringify(checkoutOrderItems))
+        },
+        removeTotals: state => { },
     },
     extraReducers: _ =>{
     }
@@ -88,6 +153,10 @@ export const {
     removeTotals,
     setCheckout,
     removeCheckout,
+    setShoppingCart,
+    removeShoppingCart,
+    setShoppingCartOrderItem,
 } = shoppingCartSlice.actions
+
 
 export default shoppingCartSlice.reducer
