@@ -47,6 +47,9 @@ const Packaged = ({ site }) => {
     const [ itemContact, setItemContact ] = useState(null)
     const [ transactionAccepted ] = useTransactionAcceptedMutation()
 
+
+    console.log({search});
+    
     useEffect(() => {
         if(message) Toast.fire({ text: message, icon: "success"})
         if(msg) Toast.fire({  text: msg, icon: "error"})

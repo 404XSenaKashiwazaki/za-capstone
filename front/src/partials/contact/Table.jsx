@@ -147,7 +147,7 @@ function Table({
                       </td>
                       <td className="p-2 whitespace-nowrap">
                         <div className="text-lg text-center p-1">
-                              <button 
+                              {/* <button 
                                onClick={(el) => handleClickDetail(el,d.id)}
                               className='
                               bg-cyan-600 px-4 py-1 rounded-sm 
@@ -155,7 +155,7 @@ function Table({
                               h-auto text-sm w-auto
                               font-medium text-center hover:bg-cyan-900
                               hover:text-slate-200 mr-1'
-                              ><FontAwesomeIcon icon={faSearch} /> Detail</button>
+                              ><FontAwesomeIcon icon={faSearch} /> Detail</button> */}
                             { 
                              
                               (isRestore) 

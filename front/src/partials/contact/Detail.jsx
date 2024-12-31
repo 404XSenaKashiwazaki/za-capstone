@@ -12,7 +12,7 @@ const Detail = ({ id, setId, showModal, setShowModal  }) => {
     console.log(dataContacts);
     if(dataContacts?.response?.contacts) setData({
       username: dataContacts.response.contacts.username,
-      fullname: dataContacts.response.contacts?.user.fullname,
+      fullname: dataContacts.response.contacts?.namaDepan +" "+dataContacts.response.contacts?.namaBelakang,
       email: dataContacts.response.contacts.email,
       profileUrl: dataContacts.response.contacts?.user?.UsersDetail.profileUrl,
       content: dataContacts.response.contacts.content,

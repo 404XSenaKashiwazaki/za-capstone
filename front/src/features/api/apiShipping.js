@@ -4,10 +4,10 @@ const apiShoppingCart = apiSlice.injectEndpoints({
     endpoints: builder => ({
         findAllProductsShipping: builder.query({
             query: (params) => {
-                const { username, productId } = params
+                const { username, productId,search } = params
                 
                 return { 
-                    url: "shipping/"+username,
+                    url: "shipping/"+username+"?search="+search,
                     method: "GET",
                 }
             },
