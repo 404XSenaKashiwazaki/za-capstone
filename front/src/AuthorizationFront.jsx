@@ -17,6 +17,14 @@ function AuthorizationFront() {
     const { data, isLoading, isError, error, isSuccess } = useAuthQuery()
     const currentPath = pathname.split("/")[1]
 
+    
+    useEffect(() => {
+        if(dataUser){
+            dataUser.roles.forEach(e=> {
+                if(e.name == "ADMIN") return navigate("/api/dashboard")
+            })
+        }
+    },[ dataUser ])
     useEffect(() => {
         if(inPath(["cart","orders","profile","order","checkouts"],currentPath)){
             if(!data && isLoading == false) navigate("/login")

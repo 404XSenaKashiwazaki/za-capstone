@@ -35,6 +35,19 @@ const ButtonCategoriesSlider = ({ categories }) => {
         },
     }
 
+    const CustomRightArrow = ({ onClick, ...rest }) => {
+        const {
+          onMove,
+          carouselState: { currentSlide, deviceType }
+        } = rest;
+        // onMove means if dragging or swiping in progress.
+        return <button
+            onClick={() => onClick()}
+                className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-gray-800 bg-opacity-70 text-white text-xs px-2 py-1 rounded-full hover:bg-opacity-80 z-0"
+            >
+                &#10095;
+            </button>
+      }
     return (
     <div className="p-0 mt-0 mb-0 sm:mt-2 sm:mb-5 w-full max-w-xl ">
         <Carousel
@@ -42,25 +55,16 @@ const ButtonCategoriesSlider = ({ categories }) => {
             infinite={false} // Carousel loops infinitely
             autoPlay={false} // Autoplay enabled
             autoPlaySpeed={2000} // Speed of autoplay
-            arrows={true} // Show navigation arrows
-            swipeable={false} // Enable swipe on touch devices
-            draggable={false} // Enable dragging with mouse
+       
+             // Enable dragging with mouse
             className="py-0 px-10 m-0 w-full "
             containerClass="carousel-container "
-            customLeftArrow={
-                <button
-                    className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-gray-800 bg-opacity-70 text-white text-xs px-2 py-1 rounded-full hover:bg-opacity-80 z-0" 
-                >
-                    &#10094;
-                </button>
-            }
-            customRightArrow={
-                <button
-                    className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-gray-800 bg-opacity-70 text-white text-xs px-2 py-1 rounded-full hover:bg-opacity-80 z-0"
-                >
-                    &#10095;
-                </button>
-            }
+            customLeftArrow={<button
+                        className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-gray-800 bg-opacity-70 text-white text-xs px-2 py-1 rounded-full hover:bg-opacity-80 z-0" 
+                    >
+                        &#10094;
+                    </button>}
+            customRightArrow={<CustomRightArrow />}
         >
         {categories.map((c) => (
             <div key={c.id} className="flex justify-center items-center gap-0">
