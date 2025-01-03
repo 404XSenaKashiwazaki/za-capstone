@@ -207,11 +207,11 @@ const Contact = ({ site }) => {
                 </div>
                 <div className="h-1 bg-gradient-to-r from-purple-500 to-blue-500 mt-3 mx-4"></div>
                 <div className="px-5">
-                    <div className=" mt-0  text-slate-500 bg-slate-50 px-5 py-5 h-96 max-h-96 overflow-auto">
-                        {/*  */}
-                        { dataContact?.response?.contacts && dataContact.response.contacts.map(c=> <CardContact key={c.id} c={c} style={`flex flex-col gap-1 items-end`} styleContent={`w-auto font-light text-sm  bg-cyan-100 text-slate-500 py-2 px-5`}/>)  }
-                        {/*  */}
-                    </div>
+                    {/*  */}
+                    { dataContact?.response?.contacts && <div className="mt-0  text-slate-500 bg-slate-50 px-5 py-5 h-96 max-h-96 overflow-auto">
+                        {dataContact.response.contacts.map(c=> <CardContact key={c.id} c={c} style={`flex flex-col gap-1 items-end`} styleContent={`w-auto font-light text-sm  bg-cyan-100 text-slate-500 py-2 px-5`}/>)}
+                    </div>  }
+                    {/*  */}
                 </div>
                 <div className="mt-5 mb-5 flex justify-end ">
                 {/* pagination  */}

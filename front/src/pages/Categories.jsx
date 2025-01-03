@@ -12,7 +12,7 @@ import Add from "../partials/categories/Form"
 import Detail from '../partials/categories/Detail'
 import { Helmet } from 'react-helmet'
 
-const Season = () => {
+const Season = ({ site }) => {
   const dispatch = useDispatch()
   const selectPerpage = [
     {label: 5, value: 5},
@@ -72,6 +72,9 @@ const Season = () => {
 
   return (
       <div className="col-span-full xl:col-span-6 bg-white shadow-lg rounded-sm border border-slate-200">
+        <Helmet>
+          <title>{ site } - Data Categories</title>
+      </Helmet>
         {/* table header */}
         { showModal && <Add showModal={showModal} setShowModal={setShowModal} setId={setId} id={id}/> }
         { showModalDetail && <Detail id={id} setId={setId} showModal={showModalDetail} setShowModal={setShowModalDetail}/> }

@@ -137,7 +137,7 @@ function Table({
                       </td>
                       <td className="p-2 whitespace-nowrap">
                         <div className="flex items-center">
-                          <div className="font-medium text-slate-800">{ d.title }</div>
+                          <div className="font-medium text-slate-800">{ d.nama }</div>
                         </div>
                       </td>
                       <td className="p-2 whitespace-nowrap">
@@ -146,7 +146,7 @@ function Table({
                       <td className="p-2 whitespace-nowrap">
                         <div className="text-lg text-center p-1">
                             <button 
-                              onClick={(e) => handleClickDetail(e,d.slug)}
+                              onClick={(e) => handleClickDetail(e,d.id)}
                               className='
                               bg-cyan-600 px-4 py-1 rounded-sm 
                               border-0 text-slate-300 
@@ -166,7 +166,7 @@ function Table({
                                 hover:text-slate-200 mr-1'
                                 ><FontAwesomeIcon  icon={faSyncAlt} /> Restore</button>)
                               : (<button 
-                                onClick={(e) => handleClickEdit(e, d.slug)}
+                                onClick={(e) => handleClickEdit(e, d.id)}
                                 className='
                                 bg-indigo-800 py-1 px-4 rounded-sm 
                                 border-0 text-slate-300  w-auto
@@ -177,7 +177,7 @@ function Table({
                             }
                             
                             <button 
-                              onClick={(e) => handleDestroy(e, d.title,d.id)}
+                              onClick={(e) => handleDestroy(e, d.nama,d.id)}
                               className='
                               bg-red-600 px-4 py-1 rounded-sm 
                               border-0 text-slate-300  w-auto

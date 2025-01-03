@@ -4,18 +4,18 @@ const apiShoppingCart = apiSlice.injectEndpoints({
     endpoints: builder => ({
         findAllProductsShipping: builder.query({
             query: (params) => {
-                const { username, productId,search } = params
-                
+                const { username, restores,search, page, perPage } = params
+                const restore = restores ? "restore" : ""
                 return { 
-                    url: "shipping/"+username+"?search="+search,
+                    url: "shipping/"+username+`?search=${search}&page=${page}&per_page=${perPage}&type=${restore}`,
                     method: "GET",
                 }
             },
-            providesTags: result => {
-                return result?.response?.orders.length > 0
-                ? result.response.orders.map(p => ({ type: "OrdersProductsShipping", id: p.id },{ type: "OrdersProductsShipping",id: "LIST-ORDER-PRODUCTS-SHIPPING" }))
-                : [{ type: "OrdersProductsShipping", id: "LIST-ORDER-PRODUCTS-SHIPPING" }]
-            },
+            // providesTags: result => {
+            //     return result?.response?.orders.length > 0
+            //     ? result.response.orders.map(p => ({ type: "OrdersProductsShipping", id: p.id },{ type: "OrdersProductsShipping",id: "LIST-ORDER-PRODUCTS-SHIPPING" }))
+            //     : [{ type: "OrdersProductsShipping", id: "LIST-ORDER-PRODUCTS-SHIPPING" }]
+            // },
         }),
         findOneProductsShipping: builder.query({
             query: (params) => {

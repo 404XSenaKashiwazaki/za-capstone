@@ -34,11 +34,10 @@ const Form = ({ id, setId, showModal, setShowModal }) => {
     
     const handleClickSave = async () => {
         try {
-            console.log({ form });
-            
             const res = await update({id, data: {
                 email: dataUser.email, username: dataUser.username, content: form.tanggapan,UserId: dataUser.id, ContactId: form.ContactId
             } }).unwrap()
+            setId(null)
             dispatch(setMessage(res?.message))
             
             setShowModal(false)

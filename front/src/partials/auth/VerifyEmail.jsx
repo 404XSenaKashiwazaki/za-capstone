@@ -74,7 +74,7 @@ const VerifyEmail = ({ site }) => {
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-400 to-purple-500">
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-800 via-blue-600  to-blue-500">
             <Helmet >
                 <title>{ site } - Verifikasi Email</title>
             </Helmet>
@@ -87,7 +87,7 @@ const VerifyEmail = ({ site }) => {
                 <button
                     onClick={handleLogin}
                     disabled={isLoading ? true : false}
-                    className={`bg-gradient-to-r ${isLoading ? `cursor-not-allowed` : `cursor-pointer`} w-full from-purple-500 to-blue-500 text-white font-bold py-1 px-5 rounded-sm hover:bg-gradient-to-l focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50`}>
+                    className={`bg-gradient-to-r ${isLoading ? `cursor-not-allowed` : `cursor-pointer`} w-full from-blue-700 via-cyan-500 to-blue-500 text-white font-bold py-1 px-5 rounded-sm hover:bg-gradient-to-l focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50`}>
                     {isLoading ? <span><FontAwesomeIcon  icon={faSpinner} values='...' /></span> : <span><FontAwesomeIcon  icon={faEnvelopeCircleCheck}  /> Verifikasi</span>}
                 </button>
             </div>

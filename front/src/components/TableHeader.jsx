@@ -174,7 +174,7 @@ function TableHeader({
                 ><FontAwesomeIcon  icon={faUndoAlt} /> Restore Banyak</button>
             ) }
 
-            { pageName == "notyetpaid" && <button  
+            {(pageName == "notyetpaid" || pageName == "cancelled" || pageName == "shipping" || pageName == "packaged" || pageName == "rateit") && <button  
                     onClick={() => {
                         refetch()
                     }}

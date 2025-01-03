@@ -9,19 +9,6 @@ const Detail = ({ id, setId, showModal, setShowModal  }) => {
   const [ data, setData ] = useState(null)
   const { data: dataProducts  } = useFindOneProductsQuery({ slug: id }, { skip: (id) ? false : true })
 
-  // useEffect(() => {
-  //   if(dataProducts?.response?.products) setData({
-  //     kode: dataProducts.response.products.kode_produk,
-  //     nama: dataProducts.response.products.nama_produk,
-  //     slug:  dataProducts.response.products.slug,
-  //     jenis:  dataProducts.response.products.jenis_produk,
-  //     jenis:  dataProducts.response.products.jenis_produk,
-  //     created: new Date(dataProducts.response.products.createdAt).toString().slice(0,25)
-  //   })
-  // },[ dataProducts ])
-
-console.log(dataProducts?.response?.products?.ImageProducts.length > 0);
-
   return (
     <>
       <Modal setId={setId} type="md" title={<span><FontAwesomeIcon icon={faSearch}/> Detail Products</span>}  button="" showModal={showModal} setShowModal={setShowModal}>

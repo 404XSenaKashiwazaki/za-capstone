@@ -96,7 +96,6 @@ const Form = ({ id, setId, showModal, setShowModal }) => {
         }
 
         setForm({ products: list })
-        console.log(name);
         
     }
     
@@ -161,9 +160,8 @@ const Form = ({ id, setId, showModal, setShowModal }) => {
     const handleClickSave = async (e) => {
         e.preventDefault()
         try {
-            console.log({ form });
-            
             const res = (id) ? await update(form).unwrap() : await add(form).unwrap()
+            setId(null)
             dispatch(setMessage(res?.message))
             setShowModal(false)
         } catch (error) {

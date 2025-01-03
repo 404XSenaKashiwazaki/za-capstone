@@ -12,7 +12,7 @@ import Modal from "../../components/Modal_"
 
 const Form = ({ id, setId, showModal, setShowModal }) => {
     const newForm = {
-        title:"",
+        nama:"",
         slug: "",
         desc: ""
     }
@@ -25,11 +25,11 @@ const Form = ({ id, setId, showModal, setShowModal }) => {
     const [ slug ] = useCreateCategoriesSlugMutation()
 
     useEffect(() => {
-        if(data?.response?.categori) setForm({ categories: [{  
-            categories_id: data.response.categori.id,
-            title: data.response.categori.title,
-            slug: data.response.categori.slug,
-            desc: data.response.categori.desc, 
+        if(data?.response?.categories) setForm({ categories: [{  
+            categories_id: data.response.categories.id,
+            nama: data.response.categories.nama,
+            slug: data.response.categories.slug,
+            desc: data.response.categories.desc, 
         }] })
     }, [data])
 
@@ -38,7 +38,6 @@ const Form = ({ id, setId, showModal, setShowModal }) => {
       const { name,value } = e.target
   
       const list = form.categories
-      console.log(list);
       list[i][name] = value
       // console.log(i);
       setForm({ categories: list })
@@ -46,7 +45,7 @@ const Form = ({ id, setId, showModal, setShowModal }) => {
     
     const hancleChangeInptCari = useDebouncedCallback((e,i)=>{
        e.preventDefault()
-       createSlug(e.target.value,i)
+    //    createSlug(e.target.value,i)
     },900, { maxWait: 5000 })
 
     const createSlug = async (title,i) => {
@@ -64,8 +63,8 @@ const Form = ({ id, setId, showModal, setShowModal }) => {
         e.preventDefault()
         try {
             const res = (id) ? await update(form).unwrap() : await add(form).unwrap()
+            setId(null)
             dispatch(setMessage(res?.message))
-        
             setShowModal(false)
         } catch (error) {
             const inpt = form.categories.map(val => ({...val, error: ""}))
@@ -160,19 +159,19 @@ const Form = ({ id, setId, showModal, setShowModal }) => {
                         <div className="flex flex-col sm:flex-row sm:justify-between gap-2">
                         <div className="w-full sm:w-2/2 ml-1 mt-10 sm:mt-0">
                         <div className="w-full mb-2">
-                            <label htmlFor="title" className="font-semibold">Title</label>
+                            <label htmlFor="nama" className="font-semibold">Nama</label>
                             <input type="text" onChange={(e) => {
                                 handleChange(e,index);
                              (!id) && hancleChangeInptCari(e,index)
-                            }} value={item.title} name="title" id="title" className="w-full h-8 border-slate-600 rounded-sm" placeholder="Masukan Title"/>
-                            <ErrorMsg message={item.error?.title || ""} />
+                            }} value={item.nama} name="nama" id="nama" className="w-full h-8 border-slate-600 rounded-sm" placeholder="Masukan Nama"/>
+                            <ErrorMsg message={item.error?.nama || ""} />
                         </div>
                       
-                        <div className="w-full mb-2">
+                        {/* <div className="w-full mb-2">
                             <label htmlFor="slug" className="font-semibold">Slug</label>
                             <input type="text" value={item.slug} name="slug" id="slug" readOnly className="w-full h-8 border-slate-600 rounded-sm bg-slate-400" placeholder="Slug"/>
                             <ErrorMsg message={item.error?.slug || ""} />
-                        </div>
+                        </div> */}
                         <div className="w-full my-2">
                             <label htmlFor="desc" className="font-semibold">Deskripsi</label>
                             <textarea  onChange={(e) => handleChange(e,index)} value={item.desc} name="desc" id="desc" className="w-full min-h-10 border-slate-600 rounded-sm" placeholder="Masukan Deskripsi"/>

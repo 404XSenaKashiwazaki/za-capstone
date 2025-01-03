@@ -5,7 +5,7 @@ import CardSeries from '../components/CardSeries'
 import HomePaginate from '../components/HomePaginate'
 import MenuSearchHome from '../components/MenuSearchHome'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHome, faTags, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons'
+import { faHome, faList, faListCheck, faTags, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons'
 import BannerSlider from '../components/Banner'
 import { useDispatch, useSelector } from 'react-redux'
 import FooterHome from '../components/FooterHome'
@@ -85,16 +85,16 @@ function Home({ site }) {
                 {/* <button className="btn btn-sm text-slate-50 font-semibold bg-indigo-900 hover:bg-indigo-800 hover:border-indigo-800">CEK ANIME ON-GOING LAINYA</button> */}
               </div>
             </div>
-            <div className="flex flex-col sm:flex-row  justify-between ">
+            <div className="flex flex-col sm:flex-row  justify-between">
               <TabCategories />
               <SortProducts sortOrder={sortOrder} setSortOrder={setSortOrder} />
             </div>
             <div className="mb-3">
-              <h1 className="text-lg font-bold mb-2"><FontAwesomeIcon icon={faTags} /> Produk Populer</h1>
+              <h1 className="text-lg font-bold mb-2"><FontAwesomeIcon icon={faListCheck} /> Produk Populer</h1>
               <PopularProducts populars={popular}/>
             </div>
             <div className="mt-3">
-              <h1 className="text-lg font-bold mb-2"><FontAwesomeIcon icon={faTags} /> Produk Terbaru</h1>
+              <h1 className="text-lg font-bold mb-2"><FontAwesomeIcon icon={faList} /> Produk { (search != "") ? search : "Terbaru" }</h1>
               <div className="lg:container lg:mx-auto">
                 <div className="grid md:grid-cols-4 lg:grid-cols-5 xl:grid-col-6 sm:grid-cols-3 grid-cols-2 gap-3 overflow-hidden">
                   { ongoing.length > 0 && <CardSeries items={ongoing}/> }

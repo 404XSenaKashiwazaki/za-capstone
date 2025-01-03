@@ -78,7 +78,7 @@ function Table({
                           <div className="text-start font-medium"> { (d.Products && d.Products.length > 0) && <p>{ d.Products.length }</p> }</div>
                       </td>
                       <td className="p-2 whitespace-nowrap">
-                          <div className="text-start font-medium flex flex-col gap-1"> <span>{  new Date(d.createdAt).toString().slice(3,25) }</span> <TimeAgo date={d.createdAt} /> </div>
+                          <div className="text-start font-medium flex flex-col gap-1"> <span>{  new Date(d.updatedAt).toString().slice(3,25) }</span> <TimeAgo date={d.updatedAt} /> </div>
                       </td>
                       <td className="p-2 whitespace-nowrap">
                           <div className="text-start font-medium"> { formatRp(d.total_price) }</div>

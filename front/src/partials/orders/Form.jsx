@@ -40,6 +40,7 @@ const Form = ({ id, setId, showModal, setShowModal }) => {
     const handleClickSave = async () => {
         try {
             const res = await update(form).unwrap()
+            setId(null)
             dispatch(setMessage(res.message))
             setShowModal(false)
         } catch (error) {

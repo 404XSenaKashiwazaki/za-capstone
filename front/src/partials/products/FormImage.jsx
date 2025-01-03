@@ -28,9 +28,6 @@ const FormAddImage = ({ id, setId, showModal, setShowModal }) => {
             setProductId(data.response.products.id)
         }
     }, [data])
-
-    console.log(form);
-
     
     const handleChangeFile = (e,i) => {
         e.preventDefault()
@@ -71,6 +68,7 @@ const FormAddImage = ({ id, setId, showModal, setShowModal }) => {
         try {
             const res = await add(form).unwrap()
             dispatch(setMessage(res?.message))
+            setId(null)
             setShowModal(false)
         } catch (error) {
             const inpt = form.products.map(val => ({...val, error: ""}))

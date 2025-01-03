@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useLogoutMutation } from '../features/api/apiAuthSlice'
 import { setMessage, setRemoveState, tokenSelector } from '../features/authSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBagShopping, faCogs, faComments, faCreditCard, faHome, faList, faMessage, faMoneyBill, faMoneyBillTransfer, faMoneyBills, faPaperPlane, faPercent, faPowerOff, faShop, faShoppingBag, faShoppingCart, faSignIn, faSignOutAlt, faSignal, faStore, faTachometerAlt, faTags, faTh, faUserCircle, faUserShield, faUsers } from '@fortawesome/free-solid-svg-icons'
+import { faBagShopping, faCogs, faComments, faCreditCard, faHome, faInfoCircle, faList, faMessage, faMoneyBill, faMoneyBillTransfer, faMoneyBills, faPaperPlane, faPercent, faPowerOff, faShop, faShoppingBag, faShoppingCart, faSignIn, faSignOutAlt, faSignal, faStore, faTachometerAlt, faTags, faTh, faUserCircle, faUserShield, faUsers, faWarning } from '@fortawesome/free-solid-svg-icons'
 
 function Sidebar({ sidebarOpen, setSidebarOpen }) {
   const location = useLocation();
@@ -97,7 +97,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
       <div
         id="sidebar"
         ref={sidebar}
-        className={`flex flex-col absolute z-40 left-0 top-0 lg:static lg:left-auto lg:top-auto lg:translate-x-0 h-screen overflow-y-scroll lg:overflow-y-auto no-scrollbar w-64 lg:w-20 lg:sidebar-expanded:!w-64 2xl:!w-64 shrink-0 bg-gradient-to-r from-blue-400 to-purple-500 p-4 transition-all duration-200 ease-in-out ${
+        className={`flex flex-col absolute z-40 left-0 top-0 lg:static lg:left-auto lg:top-auto lg:translate-x-0 h-screen overflow-y-scroll lg:overflow-y-auto no-scrollbar w-64 lg:w-20 lg:sidebar-expanded:!w-64 2xl:!w-64 shrink-0 bg-gradient-to-r from-blue-800 via-blue-600  to-blue-500 p-4 transition-all duration-200 ease-in-out ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-64'
         }`}
       >
@@ -155,7 +155,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                       
                       <div className="shrink-0 h-6 w-6">
                       <FontAwesomeIcon className={`fill-current ${
-                            pathname === '/' || pathname.includes('dashboard') ? 'text-indigo-500' : 'text-slate-900'
+                            pathname === '/' || pathname.includes('dashboard') ? 'text-slate-200' : 'text-slate-900'
                           }`} size="1x" icon={faTachometerAlt} />
                       </div>
                       <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -170,6 +170,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 </NavLink>
               </li>
 
+              
+
                {/* products */}
                 <li className={`px-3 py-1 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('products') && 'bg-slate-900'}`}>
                 <NavLink
@@ -183,11 +185,33 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   <div className="flex items-center">
                   <div className="shrink-0 h-6 w-6 ">
                     <FontAwesomeIcon className={`fill-current ${
-                          pathname === '/' || pathname.includes('products') ? 'text-indigo-500' : 'text-slate-900'
+                          pathname === '/' || pathname.includes('products') ? 'text-slate-200' : 'text-slate-900'
                         }`} size="1x" icon={faShop} />
                     </div>
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                       Products
+                    </span>
+                  </div>
+                </NavLink>
+                </li>
+                 {/* categories */}
+                 <li className={`px-3 py-1 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('categories') && 'bg-slate-900'}`}>
+                <NavLink
+                  end
+                  onClick={() =>  sidebarPosts()}
+                  to="/api/categories"
+                  className={`block text-slate-200 truncate transition duration-150 ${
+                    pathname.includes('discounts') ? 'hover:text-slate-200' : 'hover:text-white'
+                  }`}
+                >
+                  <div className="flex items-center">
+                  <div className="shrink-0 h-6 w-6 ">
+                    <FontAwesomeIcon className={`fill-current ${
+                          pathname === '/' || pathname.includes('categories') ? 'text-slate-200' : 'text-slate-900'
+                        }`} size="1x" icon={faTags} />
+                    </div>
+                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                      Categories
                     </span>
                   </div>
                 </NavLink>
@@ -204,7 +228,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   <div className="flex items-center">
                   <div className="shrink-0 h-6 w-6 ">
                     <FontAwesomeIcon className={`fill-current ${
-                          pathname === '/' || pathname.includes('discounts') ? 'text-indigo-500' : 'text-slate-900'
+                          pathname === '/' || pathname.includes('discounts') ? 'text-slate-200' : 'text-slate-900'
                         }`} size="1x" icon={faPercent} />
                     </div>
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -226,7 +250,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   <div className="flex items-center">
                   <div className="shrink-0 h-6 w-6 ">
                     <FontAwesomeIcon className={`fill-current ${
-                          pathname === '/' || pathname.includes('orders') ? 'text-indigo-500' : 'text-slate-900'
+                          pathname === '/' || pathname.includes('orders') ? 'text-slate-200' : 'text-slate-900'
                         }`} size="1x" icon={faShoppingCart } />
                     </div>
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -248,7 +272,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   <div className="flex items-center">
                   <div className="shrink-0 h-6 w-6 ">
                     <FontAwesomeIcon className={`fill-current ${
-                          pathname === '/' || pathname.includes('transactions') ? 'text-indigo-500' : 'text-slate-900'
+                          pathname === '/' || pathname.includes('transactions') ? 'text-slate-200' : 'text-slate-900'
                         }`} size="1x" icon={faMoneyBillTransfer } />
                     </div>
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -270,7 +294,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   <div className="flex items-center">
                   <div className="shrink-0 h-6 w-6 ">
                     <FontAwesomeIcon className={`fill-current ${
-                          pathname === '/api/payment-methods' || pathname.includes('payment-methods') ? 'text-indigo-500' : 'text-slate-900'
+                          pathname === '/api/payment-methods' || pathname.includes('payment-methods') ? 'text-slate-200' : 'text-slate-900'
                         }`} size="1x" icon={faMoneyBills} />
                     </div>
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -292,7 +316,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   <div className="flex items-center">
                   <div className="shrink-0 h-6 w-6 ">
                     <FontAwesomeIcon className={`fill-current ${
-                          pathname === '/' || pathname.includes('contact') ? 'text-indigo-500' : 'text-slate-900'
+                          pathname === '/' || pathname.includes('contact') ? 'text-slate-200' : 'text-slate-900'
                         }`} size="1x" icon={faMessage} />
                     </div>
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -315,7 +339,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   <div className="flex items-center">
                   <div className="shrink-0 h-6 w-6 ">
                     <FontAwesomeIcon className={`fill-current ${
-                          pathname === '/' || pathname.includes('comment') ? 'text-indigo-500' : 'text-slate-900'
+                          pathname === '/' || pathname.includes('comment') ? 'text-slate-200' : 'text-slate-900'
                         }`} size="1x" icon={faComments} />
                     </div>
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -337,7 +361,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   <div className="flex items-center">
                   <div className="shrink-0 h-6 w-6 ">
                     <FontAwesomeIcon className={`fill-current ${
-                          pathname === '/' || pathname.includes('roles') ? 'text-indigo-500' : 'text-slate-900'
+                          pathname === '/' || pathname.includes('roles') ? 'text-slate-200' : 'text-slate-900'
                         }`} size="1x" icon={faUserShield} />
                     </div>
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -359,7 +383,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   <div className="flex items-center">
                   <div className="shrink-0 h-6 w-6 ">
                     <FontAwesomeIcon className={`fill-current ${
-                          pathname === '/' || pathname.includes('users') ? 'text-indigo-500' : 'text-slate-900'
+                          pathname === '/' || pathname.includes('users') ? 'text-slate-200' : 'text-slate-900'
                         }`} size="1x" icon={faUsers} />
                     </div>
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -389,7 +413,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           <div className="flex items-center">
                           <div className="shrink-0 h-6 w-6">
                             <FontAwesomeIcon className={`fill-current ${
-                                  (pathname === '/api/site' || pathname.includes("site")) ? 'text-indigo-500' : 'text-slate-900'
+                                  (pathname === '/api/site' || pathname.includes("site")) ? 'text-slate-200' : 'text-slate-900'
                                 }`} size="1x" icon={faCogs} />
                             </div>
                             <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -478,7 +502,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   <div className="flex items-center">
                   <div className="shrink-0  h-6 w-6 ">
                     <FontAwesomeIcon className={`fill-current ${
-                          pathname === '/' || pathname.includes('home') || pathname.includes("products") ? 'text-indigo-500' : 'text-slate-900'
+                          pathname === '/' || pathname.includes('home') || pathname.includes("products") ? 'text-slate-200' : 'text-slate-900'
                         }`} size="1x" icon={faHome} />
                     </div>
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -502,7 +526,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   <div className="flex items-center">
                   <div className="shrink-0  h-6 w-6 ">
                     <FontAwesomeIcon className={`fill-current ${
-                          pathname === '/cart' || pathname.includes('cart') || pathname.includes('checkouts') ? 'text-indigo-500' : 'text-slate-900'
+                          pathname === '/cart' || pathname.includes('cart') || pathname.includes('checkouts') ? 'text-slate-200' : 'text-slate-900'
                         }`} size="1x" icon={faShoppingCart} />
                     </div>
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -532,7 +556,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           <div className="flex items-center">
                           <div className="shrink-0 h-6 w-6">
                             <FontAwesomeIcon className={`fill-current ${
-                                  (pathname === '/orders' || pathname.includes("order") || pathname.includes('orders')) && pathName != "api" ? 'text-indigo-500' : 'text-slate-900'
+                                  (pathname === '/orders' || pathname.includes("order") || pathname.includes('orders')) && pathName != "api" ? 'text-slate-200' : 'text-slate-900'
                                 }`} size="1x" icon={faBagShopping} />
                             </div>
                             <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -630,9 +654,80 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 }}
               </SidebarLinkGroup> }
             </> }
+
+            {/* about */}
+            <li className={`px-3 py-1 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('about') && 'bg-slate-900'}`}>
+                <NavLink
+                  end
+                  onClick={() =>  sidebarPosts()}
+                  to={`/about`}
+                  className={`block text-slate-200 truncate transition duration-150 ${
+                    pathname.includes('about') ? 'hover:text-slate-200' : 'hover:text-white'
+                  }`}
+                >
+                  <div className="flex items-center">
+                  <div className="shrink-0  h-6 w-6 ">
+                    <FontAwesomeIcon className={`fill-current ${
+                          pathname === '/about' || pathname.includes('about') ? 'text-slate-200' : 'text-slate-900'
+                        }`} size="1x" icon={faInfoCircle} />
+                    </div>
+                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                      Tentang Kami
+                    </span>
+                  </div>
+                </NavLink>
+              </li>
+
+              {/* contact */}
+              <li className={`px-3 py-1 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('contact') && 'bg-slate-900'}`}>
+                <NavLink
+                  end
+                  onClick={() =>  sidebarPosts()}
+                  to={`/contact`}
+                  className={`block text-slate-200 truncate transition duration-150 ${
+                    pathname.includes('contact') ? 'hover:text-slate-200' : 'hover:text-white'
+                  }`}
+                >
+                  <div className="flex items-center">
+                  <div className="shrink-0  h-6 w-6 ">
+                    <FontAwesomeIcon className={`fill-current ${
+                          pathname === '/contact' || pathname.includes('contact') ? 'text-slate-200' : 'text-slate-900'
+                        }`} size="1x" icon={faMessage} />
+                    </div>
+                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                      Contact
+                    </span>
+                  </div>
+                </NavLink>
+              </li>
+
+               {/* dmca */}
+                <li className={`px-3 py-1 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('dmca') && 'bg-slate-900'}`}>
+                <NavLink
+                  end
+                  onClick={() =>  sidebarPosts()}
+                  to={`/dmca`}
+                  className={`block text-slate-200 truncate transition duration-150 ${
+                    pathname.includes('dmca') ? 'hover:text-slate-200' : 'hover:text-white'
+                  }`}
+                >
+                  <div className="flex items-center">
+                  <div className="shrink-0  h-6 w-6 ">
+                    <FontAwesomeIcon className={`fill-current ${
+                          pathname === '/dmca' || pathname.includes('dmca') ? 'text-slate-200' : 'text-slate-900'
+                        }`} size="1x" icon={faWarning} />
+                    </div>
+                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                      Dmca
+                    </span>
+                  </div>
+                </NavLink>
+              </li>
+
           </ul> 
           </>)}
 
+        
           { (token) ? <>
 
            {/* More group */}
@@ -658,7 +753,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   <div className="flex items-center">
                   <div className="shrink-0  h-6 w-6 ">
                     <FontAwesomeIcon className={`fill-current ${
-                          pathname === '/profile' || pathname.includes('profile') ? 'text-indigo-500' : 'text-slate-900'
+                          pathname === '/profile' || pathname.includes('profile') ? 'text-slate-200' : 'text-slate-900'
                         }`} size="1x" icon={faUserCircle} />
                     </div>
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -678,7 +773,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   <div className="flex items-center">
                   <div className="shrink-0  h-6 w-6 ">
                     <FontAwesomeIcon className={`fill-current ${
-                          pathname === '/logout' || pathname.includes('logout') ? 'text-indigo-500' : 'text-slate-900'
+                          pathname === '/logout' || pathname.includes('logout') ? 'text-slate-200' : 'text-slate-900'
                         }`} size="1x" icon={faSignOutAlt} />
                     </div>
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -710,7 +805,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   <div className="flex h-full items-center">
                   <div className="shrink-0 h-6 w-6 ">
                     <FontAwesomeIcon className={`fill-current ${
-                          pathname === '/' || pathname.includes('login') ? 'text-indigo-500' : 'text-slate-900'
+                          pathname === '/login' || pathname.includes('login') ? 'text-slate-200' : 'text-slate-900'
                         }`} size="1x" icon={faSignIn} />
                     </div>
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">

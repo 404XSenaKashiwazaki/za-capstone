@@ -11,17 +11,12 @@ import Roles from "../models/backend/Roles.js"
 
 
 export const callback = async (req, res)=> {
-    const { name,  _json, id  } = req.user
-    const username = name.givenName.toLowerCase()+name.familyName.toLowerCase()
+    const { name,  _json, id, emails } = req.user
+    const username = emails[0].value.substring(0,5)
     const saltRound = await bcrypt.genSalt(10)
     const password = await bcrypt.hash(id,saltRound)
     try {
-        let users =  await Users.findOne({ where: { email: _json.email }, paranoid: false, include: [{ 
-            model: Roles, attributes:["id","name","desk"], 
-            through: { attributes:["RoleId","UserId"] } 
-        },{ 
-            model: UsersDetails
-        }]  })
+        let users =  await Users.findOne({ where: { email: _json.email }, paranoid: false  })
         if(!users) {
             await sequelize.transaction(async transaction => {
                 users = await Users.create({ 
@@ -36,11 +31,9 @@ export const callback = async (req, res)=> {
                 await User_Role.create({ RoleId: 3, UserId: users.id },{ transaction })
                 await UsersDetails.create({ UserId: users.id,alamat: "" },{ transaction })
             })
+
+            users = await users.reload()
         }
-
-        console.log({ users });
-        
-
         const accessToken = jwt.sign({ 
             id: users.id,
             username: users.username,
@@ -66,9 +59,15 @@ export const callback = async (req, res)=> {
         {expiresIn: "1d"})
         res.cookie("jwt",refreshToken,{httpOnly:true,maxAge: 60*60*24*1000})
 
-        await users.update({token: refreshToken})  
-        const roles = users.Roles
-        const url = roles.map(t => (t.name.trim().toLowerCase().includes("admin","penjual")) 
+        users = await users.update({token: refreshToken})  
+        const roles = await Users.findOne({ where: { email: users.email }, include: [{ 
+            model: Roles, attributes:["id","name","desk"], 
+            through: { attributes:["RoleId","UserId"] } 
+        },{ 
+            model: UsersDetails
+        }] })
+    
+        const url = roles.Roles.map(t => (t.name.trim().toLowerCase() == "admin") 
         ? "http://localhost:5173/api/dashboard" 
         : "http://localhost:5173")
         return {

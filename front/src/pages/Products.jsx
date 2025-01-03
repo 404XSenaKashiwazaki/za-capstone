@@ -42,7 +42,6 @@ const Products = ({ site }) => {
  
 
   useEffect(() => {
-    console.log(message);
     if(message) Toast.fire({ text: message, icon: "success"})
     dispatch(removeMessage())
   },[dispatch, message])
@@ -72,9 +71,7 @@ const Products = ({ site }) => {
     e.stopPropagation()
     setShowModal(true)
   } 
-  
-  console.log(dataProducts);
-  
+
   return (
       <div className="col-span-full xl:col-span-6 bg-white shadow-lg rounded-sm border border-slate-200">
         <Helmet >

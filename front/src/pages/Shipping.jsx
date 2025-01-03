@@ -5,7 +5,7 @@ import Table from '../partials/shipping/Table'
 import TableHeader from '../components/TableHeader'
 import { Toast} from '../utils/sweetalert'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTruck } from '@fortawesome/free-solid-svg-icons'
+import { faExclamationTriangle, faTruck } from '@fortawesome/free-solid-svg-icons'
 import ButtonPagination from '../components/ButtonPagination'
 import Detail from '../partials/shipping/Detail'
 import { useNavigate } from 'react-router-dom'
@@ -39,7 +39,7 @@ const Packaged = ({ site }) => {
     const [ options, setOptions ] = useState({})
     const [ id, setId ] = useState(null)
     const [ totalsFilters, setTotalsFilters ] = useState(0)
-    const { data: dataNotPaid, isError, isLoading, error  } = useFindAllProductsShippingQuery({ username: dataUser?.username, restores: isRestore, search, page, perPage },{ refetchOnMountOrArgChange: (navigate || isRestore),skip: (dataUser) ? false: true })
+    const { data: dataNotPaid, isError, isLoading, error, refetch } = useFindAllProductsShippingQuery({ username: dataUser?.username, restores: isRestore, search, page, perPage },{ refetchOnMountOrArgChange: (navigate || isRestore),skip: (dataUser) ? false: true })
     const [ contact, {isLoading: isLoadingSotore} ] = useStoreContactMutation()
     const [ msg, setMsg ] = useState()
     const [ user,setUser ] = useState(null)
@@ -108,6 +108,8 @@ const Packaged = ({ site }) => {
         }
     }  
     return (
+        <>
+        <div className="bg-yellow-500 text-slate-100 mb-2 mx-0 py-3 px-2 rounded-sm text-sm font-medium"><FontAwesomeIcon icon={faExclamationTriangle} /> Untuk memastikan transaksi Anda berhasil atau gagal, silakan tekan tombol Refresh.</div>
         <div className="col-span-full xl:col-span-6 bg-white shadow-lg rounded-sm border border-slate-200">
             <Helmet >
                 <title>{ site } - Dikirim</title>
@@ -135,6 +137,7 @@ const Packaged = ({ site }) => {
             fetchDataRestoreAll=""
             checkedId={checkedId}
             handleClickBtnAdd=""
+            refetch={refetch}
             setMessage={setMessage}
             />
             {/* end table header */}
@@ -164,6 +167,7 @@ const Packaged = ({ site }) => {
             }
             {/* end pagination */}
         </div>
+        </>
     )
 }
 

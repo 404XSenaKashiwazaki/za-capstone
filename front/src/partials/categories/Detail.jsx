@@ -10,10 +10,10 @@ const Detail = ({ id, setId, showModal, setShowModal  }) => {
 
   useEffect(() => {
     console.log(dataCategories);
-    if(dataCategories?.response?.categori) setData({
-      title: dataCategories.response.categori.title,
-      desc: dataCategories.response.categori.desc,
-      created: new Date(dataCategories.response.categori.createdAt).toString().slice(0,25)
+    if(dataCategories?.response?.categories) setData({
+      title: dataCategories.response.categories.nama,
+      desc: dataCategories.response.categories.desc,
+      created: new Date(dataCategories.response.categories.createdAt).toString().slice(0,25)
     })
   },[ dataCategories ])
 

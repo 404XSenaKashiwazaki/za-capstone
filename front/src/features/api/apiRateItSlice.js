@@ -4,18 +4,18 @@ const apiRateIt = apiSlice.injectEndpoints({
     endpoints: builder => ({
         findAllProductRateIt: builder.query({
             query: (params) => {
-                const { username, productId } = params
-                
+                const { username, restores,search, page, perPage } = params
+                const restore = restores ? "restore" : ""
                 return { 
-                    url: "finished-orders/"+username,
+                    url: "finished-orders/"+username+`?search=${search}&page=${page}&per_page=${perPage}&type=${restore}`,
                     method: "GET",
                 }
             },
-            providesTags: result => {
-                return result?.response?.orders.length > 0
-                ? result.response.orders.map(p => ({ type: "OrdersProductsFinish", id: p.id },{ type: "OrdersProductsFinish",id: "LIST-ORDER-PRODUCTS-FINISH" }))
-                : [{ type: "OrdersProductsFinish", id: "LIST-ORDER-PRODUCTS-FINISH" }]
-            },
+            // providesTags: result => {
+            //     return result?.response?.orders.length > 0
+            //     ? result.response.orders.map(p => ({ type: "OrdersProductsFinish", id: p.id },{ type: "OrdersProductsFinish",id: "LIST-ORDER-PRODUCTS-FINISH" }))
+            //     : [{ type: "OrdersProductsFinish", id: "LIST-ORDER-PRODUCTS-FINISH" }]
+            // },
         }),
         findOneProductsRateIt: builder.query({
             query: (params) => {

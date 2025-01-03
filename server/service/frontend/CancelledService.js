@@ -35,7 +35,12 @@ export const findAll = async (req) => {
     } }
 
     const whereCount = { where: { status: { [Op.or]: ["cancel","expired"] }, deletedAt: { [(paranoid) ? Op.is : Op.not] : null } } , paranoid: false}
-    const orders = await Orders.findAll({...where,include: [{ model: Products, include:[{ model: ImageProducts }] },{ model: Users }], paranoid ,limit, offset, order: [["id","DESC"]]})   
+
+    const orders = await Orders.findAll({...where,include: [{ model: Products, where: {
+        [Op.or]: {
+            nama_produk: { [Op.like]: `%${search}%` },
+        },
+    }, required: true, include:[{ model: ImageProducts }] },{ model: Users }], paranoid ,limit, offset, order: [["id","DESC"]]})   
     const totals = await Orders.count(whereCount)
 
     const totalsCount = (search == "") ? totals : orders.length

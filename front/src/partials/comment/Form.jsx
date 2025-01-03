@@ -27,7 +27,7 @@ const Add = () => {
     try {
 
       const res = await update({ data: input, id: data.response.contacts.id }).unwrap() 
-      console.log(res);
+      setId(null)
       dispatch(setMessage(res.message))
       dispatch(setModalClose())
     } catch (error) {

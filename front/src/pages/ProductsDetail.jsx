@@ -2,7 +2,7 @@
 import { useFindOneProductsQuery } from "../features/api/apiProductsSlice";
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faArrowRotateBack, faCartShopping, faCheckSquare, faCommentSms, faHashtag, faImage, faMessage, faRankingStar, faSearch, faShop, faShoppingCart, faStar, faTags, faXmarkSquare } from '@fortawesome/free-solid-svg-icons'
+import { faArrowLeft, faArrowRotateBack, faBackspace, faCartShopping, faCheckSquare, faCommentSms, faHashtag, faImage, faMessage, faRankingStar, faSearch, faShop, faShoppingCart, faStar, faTags, faXmarkSquare } from '@fortawesome/free-solid-svg-icons'
 import { useFindAnimeOngoingQuery, useHomeFindOneEpisodeQuery } from "../features/api/apiHomeSlice";
 import CardSeries from "../components/CardSeries";
 import { formatDiskon, formatRp } from "../utils/FormatRp";
@@ -220,11 +220,9 @@ const ProductsDetail = ({ site }) => {
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row justify-start p-5 bg-slate-50 w-full mt-5">
-      {/* <h1 className="text-lg font-bold text-gray-900 mt-3"><FontAwesomeIcon icon={faMessage} /> Komentar</h1> */}
-      </div>
+    
       <div className="flex justify-end mt-5">
-        <Link to="/" className="w-auto px-6 py-1 text-sm font-medium bg-indigo-700 text-white rounded-sm hover:bg-indigo-600 transition"><FontAwesomeIcon icon={faArrowLeft} /> Kembali</Link>
+        <Link to="/" className="w-auto px-6 py-1 text-sm font-medium bg-indigo-700 text-white rounded-sm hover:bg-indigo-600 transition"><FontAwesomeIcon icon={faArrowRotateBack} /> Kembali</Link>
       </div>
       <div className=" w-full p-5 mt-5">
         <h1 className="text-lg font-bold text-gray-900 mt-3"><FontAwesomeIcon icon={faTags} /> Produk Serupa</h1>

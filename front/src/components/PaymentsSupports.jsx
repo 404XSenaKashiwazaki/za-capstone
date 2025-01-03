@@ -54,8 +54,19 @@ const PaymentsSupports = ()=> {
   }
   
   return (
-    <div className="relative w-full  mx-0 overflow-hidden">
-      <Carousel  
+    <div className="relative full mb-10">
+     <div className="grid grid-cols-1 sm:grid-cols-4 gap-2 xs:gap-10">
+     { (payments.length > 0) && payments.map((p) => (
+          <div key={p.id} className="w-40 grid grid-cols-2 p-2 gap-2 mx-1 relative  bg-white shadow-2xl rounded-sm hover:scale-95 duration-100 border-gray-200">
+            <img
+              src={p.logoUrl}
+              alt={p.name}
+              className="w-full h-6 object-center "
+            />
+          </div>
+        ))}
+     </div>
+      {/* <Carousel  
         responsive={responsive}
         infinite={true} // Carousel loops infinitely
         autoPlay={true} // Autoplay enabled
@@ -68,23 +79,8 @@ const PaymentsSupports = ()=> {
         showDots={true}
         dotListClass=""
         itemClass="px-1 py-5 z-50" >
-      { (payments.length > 0) && payments.map((p) => (
-          <div key={p.id} className="grid grid-cols-2 p-2 gap-2 mx-1 relative  bg-white shadow-lg rounded-sm hover:scale-95 duration-100 border-gray-200">
-            <img
-              src={p.logoUrl}
-              alt={p.name}
-              className="w-20 h-20 object-fill "
-            />
-            <span className="ml-2 absolute -top-1 -right-1 text-sm font-light bg-gradient-to-r w-auto from-purple-500 to-blue-500 text-white px-2 py-0 bg-slate-800 hover:bg-gradient-to-l focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50 rounded-sm">{ p.name  }</span>
-            <div className="flex flex-col justify-center items-center  bg-opacity-10 text-slate-900 w-full h-full mt-2">
-              <h2 className="text-sm font-medium w-full overflow-hidden text-ellipsis whitespace-nowrap text-gray-900">{p.desk}</h2>
-                <div className="text-xs mt-1 w-full overflow-hidden text-ellipsis whitespace-nowrap text-gray-900 flex flex-row">
       
-                </div>
-            </div>
-          </div>
-        ))}
-      </Carousel>
+      </Carousel> */}
     </div>
   )
 }

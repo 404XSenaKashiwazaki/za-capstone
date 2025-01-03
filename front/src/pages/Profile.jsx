@@ -6,7 +6,7 @@ import { setMessage } from '../features/profileSlice'
 import { setToken } from '../features/authSlice'
 import Swal, { Toast, mySwal } from '../utils/sweetalert'
 import FormInputProfilePassword from "../components/FormInputProfilePassword"
-import { faBagShopping, faCameraAlt, faBox, faBoxArchive, faBoxes, faBoxesPacking, faCancel, faCar, faLock, faStar, faTruckDroplet, faUserCog, faWallet } from "@fortawesome/free-solid-svg-icons"
+import { faBagShopping, faCameraAlt, faBox, faBoxArchive, faBoxes, faBoxesPacking, faCancel, faCar, faLock, faStar, faTruckDroplet, faUserCog, faWallet, faPaperPlane, faSpinner } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 import { useLocation, useNavigate } from "react-router-dom"
@@ -351,8 +351,9 @@ const Profile = ({ site }) => {
                                     </div>
                                     <button
                                         type="submit"
-                                        className="mt-4 w-auto px-4 py-1 bg-indigo-700 text-white  rounded-sm font-bold text-sm hover:bg-indigo-600 transition">
-                                        Simpan
+                                        disabled={isLoading ? true : false}
+                                        className={`bg-gradient-to-r ${isLoading ? `cursor-not-allowed` : `cursor-pointer`}  w-full from-blue-700 via-cyan-500 to-blue-500 text-white font-bold py-1 px-5 rounded-sm hover:bg-gradient-to-l focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50`}>
+                                        {isLoading ? <span><FontAwesomeIcon  icon={faSpinner} values='...' /></span> : <span><FontAwesomeIcon  icon={faPaperPlane}  /> Simpan</span>}
                                     </button>
                                     </form>
                             </div>

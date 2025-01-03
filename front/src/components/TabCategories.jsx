@@ -6,6 +6,7 @@ import { useFindAllCategoriesFrontQuery } from '../features/api/apiCategoriesSli
 
 const TabCategories = () => {
     const location = useLocation()
+   
     const { pathname } = location
     const queryParams = new URLSearchParams(location.search)
     const { data: dataCategories } = useFindAllCategoriesFrontQuery()

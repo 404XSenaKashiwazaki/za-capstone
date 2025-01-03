@@ -142,7 +142,7 @@ function Table({
                         <td className="p-2 whitespace-nowrap w-60">
                             <div className="grid grid-cols-[50px_1fr] gap-1 items-center">
                                 <div className="shrink-0 mr-2 mt-2 sm:mr-3">
-                                    <img className="rounded-sm w-10 h-10 xs:w-16 xs:h-10" src={d.logoUrl} alt={d.name} />
+                                    <img className="rounded-sm object-contain w-10 h-10" src={d.logoUrl} alt={d.name} />
                                 </div>
                                 <div className="font-medium   text-slate-800">{d.name}</div>
                             </div>

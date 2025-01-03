@@ -144,6 +144,7 @@ function App() {
           <Route path="roles" element={<Roles site={site?.title}/>} />
           {/* products */}
           <Route path="products" element={<Products site={site?.title}/>} />
+          <Route path="categories" element={<Categories site={site?.title}/>} />
           <Route path="orders" element={<Orders site={site?.title}/>} />
           <Route path="transactions" element={<Payments site={site?.title}/>} />
           {/* settings */}

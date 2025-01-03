@@ -11,11 +11,11 @@ const apiShoppingCart = apiSlice.injectEndpoints({
                     method: "GET",
                 }
             },
-            providesTags: result => {
-                return result?.response?.orders.length > 0
-                ? result.response.orders.map(p => ({ type: "OrdersProductsPackaged", id: p.id },{ type: "OrdersProductsPackaged",id: "LIST-ORDER-PRODUCTS-PACKAGED" }))
-                : [{ type: "OrdersProductsPackaged", id: "LIST-ORDER-PRODUCTS-PACKAGED" }]
-            },
+            // providesTags: result => {
+            //     return result?.response?.orders.length > 0
+            //     ? result.response.orders.map(p => ({ type: "OrdersProductsPackaged", id: p.id },{ type: "OrdersProductsPackaged",id: "LIST-ORDER-PRODUCTS-PACKAGED" }))
+            //     : [{ type: "OrdersProductsPackaged", id: "LIST-ORDER-PRODUCTS-PACKAGED" }]
+            // },
         }),
         findOneProductsPackaged: builder.query({
             query: (params) => {

@@ -60,7 +60,7 @@ const ForgotPassword = ({ site }) => {
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-400 to-purple-500">
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-800 via-blue-600  to-blue-500">
             <Helmet >
                 <title>{ site } - Lupa Password</title>
             </Helmet>
@@ -76,7 +76,7 @@ const ForgotPassword = ({ site }) => {
                     type="email"
                     name="email"
                     placeholder="Masukan email"
-                    className="w-full px-3 py-1 text-gray-700 border rounded-sm focus:outline-none focus:ring focus:ring-purple-500"
+                    className="w-full px-3 py-1 text-gray-700 border rounded-sm focus:outline-none focus:ring focus:ring-blue-500"
                 />
                 <ErrorMsg message={value.error?.email || ""} />
             </div>
@@ -84,7 +84,7 @@ const ForgotPassword = ({ site }) => {
                 <button
                     onClick={handleLogin}
                     disabled={isLoading ? true : false}
-                    className={`bg-gradient-to-r ${isLoading ? `cursor-not-allowed` : `cursor-pointer`} w-full from-purple-500 to-blue-500 text-white font-bold py-1 px-5 rounded-sm hover:bg-gradient-to-l focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50`}>
+                    className={`bg-gradient-to-r ${isLoading ? `cursor-not-allowed` : `cursor-pointer`} w-full from-blue-700 via-cyan-500 to-blue-500 text-white font-bold py-1 px-5 rounded-sm hover:bg-gradient-to-l focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50`}>
                     {isLoading ? <span><FontAwesomeIcon  icon={faSpinner} values='...' /></span> : <span><FontAwesomeIcon  icon={faSignInAlt}  /> Reset Password</span>}
                 </button>
             </div>

@@ -122,7 +122,9 @@ export const validateAddImage = (req,res,next) => {
     if(!products) throw CreateErrorMessage("Permintaan anda tidak valid",400)
     products = products.map((e,i) => {
         const regex = /\[([0-9]+)\]/;
+        if(req.files.length == 0) return e
         const fieldname = req.files[0].fieldname
+
         const fieldIndex = fieldname.match(regex)
     
         const nama_image = (fieldIndex[1] == i) ? req.files[0]?.filename :  e.namaImageOld

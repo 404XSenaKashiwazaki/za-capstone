@@ -48,6 +48,7 @@ const Form = ({ id, setId, showModal, setShowModal }) => {
     const handleClickSave = async () => {
         try {
             const res = (id) ? await update(form).unwrap() : await add(form).unwrap()
+            setId(null)
             dispatch(setMessage(res?.message))
             setShowModal(false)
         } catch (error) {
@@ -87,12 +88,10 @@ const Form = ({ id, setId, showModal, setShowModal }) => {
             list[i].logoUrl = "http://localhost:8000/payments/default.jpg"
             setForm({ users: list })
         }else{
-            console.log(list[i].logo);
             const err = list[i].error
             list[i].logo = files
             list[i].error = { ...err, logo: null }
-            console.log(list[i]);
-            console.log(list[0]);
+    
             reader.addEventListener("load", () => {
                 list[i].logoUrl = reader.result
                 setForm({ payments_methods: list })
@@ -174,7 +173,7 @@ const Form = ({ id, setId, showModal, setShowModal }) => {
                         <div className="grid grid-cols-1 xs:grid-cols-[150px_1fr] gap-2">
                             <div className="w-full">
                                 <div>
-                                    <img src={ item.logoUrl } alt={ item.name } className="rounded-sm w-80 h-80"/>
+                                    <img src={ item.logoUrl } alt={ item.name } className="rounded-sm "/>
                                 </div>
                             </div>
                             <div className="w-full flex-initial">
